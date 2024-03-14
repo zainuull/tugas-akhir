@@ -5,13 +5,13 @@ import HorizontalBars from './(presentation)/(components)/chart';
 import { useEffect } from 'react';
 
 const Dashboard = () => {
-  // const [, setUser] = useUser();
+  const [, setUser] = useUser();
 
-  // useEffect(() => {
-  //   const res = JSON.parse(localStorage.getItem('currentUser') || '');
-  //   setUser(res);
-  // }, []);
-
+  useEffect(() => {
+    const res = JSON.parse(localStorage.getItem('currentUser') || '');
+    setUser(res);
+  }, []);
+  
   return (
     <div className="w-full h-full grid grid-cols-1">
       <Card />
