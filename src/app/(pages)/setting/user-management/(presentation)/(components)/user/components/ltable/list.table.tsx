@@ -134,16 +134,16 @@ export default function ListTable() {
             {visibleRows.map((row, index) => {
               return (
                 <TableRow hover tabIndex={-1} key={row.id} className="cursor-pointer">
-                  <TableCell align="left" className="text-xs">
+                  <TableCell align="left" >
                     {row.name}
                   </TableCell>
-                  <TableCell align="left" className="text-xs">
+                  <TableCell align="left" >
                     {row.email}
                   </TableCell>
-                  <TableCell align="left" className="text-xs">
+                  <TableCell align="left" >
                     {row.age}
                   </TableCell>
-                  <TableCell align="left" className="text-xs">
+                  <TableCell align="left" >
                     {row.province}
                   </TableCell>
                   <TableCell align="left">

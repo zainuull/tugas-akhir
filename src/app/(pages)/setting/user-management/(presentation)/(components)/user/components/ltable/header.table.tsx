@@ -70,7 +70,7 @@ export default function EnhancedTableHead(props: EnhancedTableProps) {
       <TableRow>
         {headCells.map((headCell) => (
           <TableCell
-            className="text-black font-semibold text-xs"
+            className="text-black font-semibold"
             key={headCell.id}
             align={'left'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
