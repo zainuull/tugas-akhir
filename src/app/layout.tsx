@@ -8,12 +8,12 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'CMP Telkomsel',
-  description: 'This created by PT Ravelware Technology',
-  authors: [{ name: 'Ravelware' }, { url: 'https://cmp-telkomsel.vercel.app' }],
-  icons: {
-    icon: '/logo.png',
-  },
+  title: 'Tugas Akhir',
+  description: 'This created tugas akhir',
+  authors: [{ name: 'Tugas Akhir' }, { url: 'https://tugas-akhir-roan.vercel.app/' }],
+  // icons: {
+  //   icon: '/logo.png',
+  // },
 };
 
 export default function RootLayout({
