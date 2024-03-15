@@ -6,7 +6,6 @@ import Sidebar from './(sharedComponents)/sidebar';
 
 export default function Home() {
   const [isNotif, setIsNotif] = useState<boolean>(false);
-  // useDeviceDetection();
 
   return (
     <main className="bg-secondary w-full h-screen overflow-y-scroll">

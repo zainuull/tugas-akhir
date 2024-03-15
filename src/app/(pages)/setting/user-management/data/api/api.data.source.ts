@@ -1,10 +1,10 @@
 import { Http } from '@/core/services/http/http.client';
-import { IRequestInjectionDataModel, IRequestInjectionModel, IRequestInjectionQuery } from '../../domain/model/model';
+import { IDataParticipant, IRequestInjectionDataModel, IRequestInjectionModel, IRequestInjectionQuery } from '../../domain/model/model';
 import { Repository } from '../../domain/repository/repository';
 
 export default class ApiDataSourceImpl implements Repository {
-  async getData(query?:IRequestInjectionQuery) {
-    const res = await Http.get<IRequestInjectionModel>('/api/participant',query);
+  async getData(query?: IDataParticipant) {
+    const res = await Http.get<IRequestInjectionModel>('/api/participant', query);
     return res.data;
   }
 

@@ -4,7 +4,7 @@ import { IQueryModel } from '@/core/interface/IQueryModel';
 export interface IRequestInjectionModel extends IModel {
   totalData?: number;
   totalPage?: number;
-  data?: IRequestInjectionDataModel[];
+  data?: IDataParticipant[];
 }
 
 export interface IRequestInjectionDataModel {

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import {
+  IDataParticipant,
   IRequestInjectionDataModel,
   IRequestInjectionModel,
   IRequestInjectionQuery,
@@ -37,7 +38,7 @@ export default function VM() {
   const getEndUserUseCase = new GetEndUserUseCase(coreDataSource);
 
   //function
-  async function getData(query?: IRequestInjectionQuery) {
+  async function getData(query?: IDataParticipant) {
     setDatas(await getDataUseCase.invoke(query));
   }
 

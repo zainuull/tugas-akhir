@@ -18,7 +18,7 @@ interface IHeader {
 }
 
 const Header = (props: IHeader) => {
-  const session = useSession();
+  // const session = useSession();
   const { isOverlay, setIsOverlay } = props;
   const [isMenu, setIsMenu] = useState<boolean>(false);
   const pathname = usePathname();
@@ -26,7 +26,7 @@ const Header = (props: IHeader) => {
   const router = useRouter();
   const [isNotif, setIsNotif] = useState<boolean>(false);
   const notify = new NotifyService();
-  const profil = session.data?.user;
+  // const profil = session.data?.user;
 
   const pathToPageName: { [key: string]: string } = {
     '/setting/user-management': 'User Management',
@@ -74,7 +74,7 @@ const Header = (props: IHeader) => {
         <IoNotificationsCircleOutline size={30} onClick={handleNotif} className="cursor-pointer" />
         <div className="flex items-center gap-x-4">
           <CgProfile size={27} />
-          <h1>{profil?.name || 'unknown'}</h1>
+          <h1>{ 'unknown'}</h1>
           {isMenu ? (
             <IoChevronDownSharp onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />
           ) : (

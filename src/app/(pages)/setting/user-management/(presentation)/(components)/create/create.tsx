@@ -69,7 +69,7 @@ const CreateUser = (props: ICreateUser) => {
         createData(payload)
           .then(() => {
             getData();
-            toastService.successCreate();
+            // toastService.successCreate();
             handleClose();
           })
           .catch((err) => {

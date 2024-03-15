@@ -142,7 +142,7 @@ export default function ListTable() {
       if (res) {
         deleteData(id)
           .then(() => {
-            toastService.successDelete();
+            // toastService.successDelete();
             fetchData();
           })
           .catch((err) => {
@@ -203,7 +203,6 @@ export default function ListTable() {
         dataInput={dataInput}
         setDataInput={setDataInput}
       />
-      <ToastNotify />
     </Box>
   );
 }

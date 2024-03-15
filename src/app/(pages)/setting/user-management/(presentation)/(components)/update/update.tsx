@@ -64,7 +64,7 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
         updateData(dataInput?.id || '', payload)
           .then(() => {
             getData();
-            toastService.successUpdate();
+            // toastService.successUpdate();
             handleClose();
           })
           .catch((err) => {
