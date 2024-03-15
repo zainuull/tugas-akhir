@@ -1,5 +1,5 @@
 const environment = {
-  baseApiUrl: 'http://localhost:3000',
+  baseApiUrl: 'https://tugas-akhir-roan.vercel.app',
 };
 
 export default environment;
