@@ -1,11 +1,11 @@
 'use client';
-
-import ListTable from './components/ltable/list.table';
+import ListTable from './ltable/list.table';
 import useOverlay from '@/app/(pages)/store/store.notif';
 import { useState } from 'react';
-import CreateUser from './components/create/create';
+import CreateUser from './create/create';
 // Icons
 import { HiMagnifyingGlass } from 'react-icons/hi2';
+
 
 const ListUser = () => {
   const [isOverlay, setIsOverlay] = useOverlay();

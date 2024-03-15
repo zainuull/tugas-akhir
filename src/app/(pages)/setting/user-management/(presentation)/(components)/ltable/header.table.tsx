@@ -1,4 +1,4 @@
-import { IDataEndUser } from '@/app/(pages)/setting/user-management/domain/model/model';
+import { IDataParticipant } from '@/app/(pages)/setting/user-management/domain/model/model';
 import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
@@ -11,7 +11,7 @@ export type Order = 'asc' | 'desc';
 
 interface EnhancedTableProps {
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof IDataEndUser) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof IDataParticipant) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -20,12 +20,18 @@ interface EnhancedTableProps {
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof IDataEndUser;
+  id: keyof IDataParticipant;
   label: string;
   numeric: boolean;
 }
 
 const headCells: readonly HeadCell[] = [
+  {
+    id: 'nik',
+    numeric: false,
+    disablePadding: false,
+    label: 'NIK',
+  },
   {
     id: 'name',
     numeric: false,
@@ -33,22 +39,28 @@ const headCells: readonly HeadCell[] = [
     label: 'Nama User',
   },
   {
-    id: 'email',
+    id: 'place_of_birth',
     numeric: true,
     disablePadding: false,
-    label: 'Email',
+    label: 'Tempat Lahir',
   },
   {
-    id: 'age',
+    id: 'date_of_birth',
     numeric: true,
     disablePadding: false,
-    label: 'Age',
+    label: 'Tanggal Lahir',
   },
   {
-    id: 'province',
+    id: 'work',
     numeric: true,
     disablePadding: false,
-    label: 'Provinsi',
+    label: 'Pekerjaan',
+  },
+  {
+    id: 'protection_period',
+    numeric: true,
+    disablePadding: false,
+    label: 'Periode Perlindungan',
   },
   {
     id: 'action',
@@ -61,7 +73,7 @@ const headCells: readonly HeadCell[] = [
 export default function EnhancedTableHead(props: EnhancedTableProps) {
   const { order, orderBy, onRequestSort } = props;
   const createSortHandler =
-    (property: keyof IDataEndUser) => (event: React.MouseEvent<unknown>) => {
+    (property: keyof IDataParticipant) => (event: React.MouseEvent<unknown>) => {
       onRequestSort(event, property);
     };
 

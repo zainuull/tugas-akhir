@@ -1,5 +1,5 @@
 const config = {
-  baseApiUrl: 'http://89.116.121.128:9901',
+  baseApiUrl: 'http://localhost:3000',
 };
 
 export default config;

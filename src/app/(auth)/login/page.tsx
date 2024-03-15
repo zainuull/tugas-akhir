@@ -2,16 +2,19 @@
 import Link from 'next/link';
 import VM from './(presentation)/vm/vm';
 import { useRef, useState } from 'react';
+import { signIn } from 'next-auth/react';
 import { IUserContextModel } from './domain/model/model';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { HandleError } from '@/core/services/handleError/handleError';
 import { NotifyService } from '@/core/services/notify/notifyService';
 import Swal from 'sweetalert2';
 import useDeviceDetection from '@/app/deviceDetection';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
   const { loginData } = VM();
   // const { getProfileWToken } = VMOverview();
+  const router = useRouter();
   const [viewPwd, setViewPwd] = useState(false);
   const [form, setForm] = useState<IUserContextModel>();
   const notifyService = new NotifyService();
@@ -40,24 +43,28 @@ const Login = () => {
     setViewPwd(!viewPwd);
   };
 
-  const handleLogin = () => {
-    const payload = {
-      username: form?.username || '',
-      password: form?.password || '',
-    };
+  const handleLogin = async () => {
     notifyService.showLoading();
-    loginData(payload)
-      .then((res) => {
-        //set localstorage
-        if (res) {
-          window.localStorage.setItem('currentUser', JSON.stringify(res));
-          const test = JSON.stringify(res);
-          document.cookie = `token=${test}`;
-          Swal.close();
-          window.location.href = '/dashboard';
-        }
-      })
-      .catch((err) => HandleError(err));
+
+    try {
+      const res = await signIn('credentials', {
+        redirect: false,
+        email: form?.email || '',
+        password: form?.password || '',
+        callbackUrl: '/dashboard',
+      });
+
+      if (res?.ok) {
+        notifyService.successLogin();
+        router.push('/dashboard');
+        Swal.close();
+      } else {
+        console.log(res?.error);
+        notifyService.wrongPassword();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -71,17 +78,15 @@ const Login = () => {
     <div className="w-full h-screen bg-secondary p-4 flex items-center justify-center select-none">
       <div className="w-4/5 xl:w-1/3 h-1/2 xl:h-4/5 flex flex-col items-center lg:justify-center xl:justify-normal gap-y-2 bg-white rounded-lg">
         <h1 className="text-xl font-semibold leading-relaxed mt-10">Masuk ke akun Anda</h1>
-        <p className="text-gray-400 text-sm lg:text-base">
-          Silahkan Masukan Username & kata sandi{' '}
-        </p>
+        <p className="text-gray-400 text-sm lg:text-base">Silahkan Masukan Email & kata sandi </p>
         <form className="w-full flex flex-col items-center gap-y-10 mt-2 lg:mt-12">
           <input
-            id="username"
-            type="tel"
+            id="email"
+            type="mail"
             className="border-2 text-black placeholder:text-gray-600 border-gray-400 rounded-lg px-6 h-16 w-4/5  outline-none"
-            placeholder="Masukkan username"
-            autoComplete="username"
-            value={form?.username || ''}
+            placeholder="Masukkan email"
+            autoComplete="email"
+            value={form?.email || ''}
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             required

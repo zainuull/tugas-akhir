@@ -19,7 +19,7 @@ interface IPrivilege {
 }
 
 export interface IUserContextModel {
-  username?: string;
+  email?: string;
   password?: string;
 }
 

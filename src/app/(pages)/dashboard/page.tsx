@@ -1,17 +1,18 @@
-'use client';
-import useUser from '@/core/services/store/store.user';
+import { getServerSession } from 'next-auth';
 import Card from './(presentation)/(components)/card';
 import HorizontalBars from './(presentation)/(components)/chart';
-import { useEffect } from 'react';
+import { redirect } from 'next/navigation';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-const Dashboard = () => {
-  // const [, setUser] = useUser();
 
-  // useEffect(() => {
-  //   const res = JSON.parse(localStorage.getItem('currentUser') || '');
-  //   setUser(res);
-  // }, []);
-  
+
+const Dashboard = async () => {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    redirect('/login');
+  }
+
   return (
     <div className="w-full h-full grid grid-cols-1">
       <Card />

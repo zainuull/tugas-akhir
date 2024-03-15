@@ -1,4 +1,5 @@
 import { IUserModel } from '@/app/(auth)/login/domain/model/model';
+import environment from '@/environments/env.production';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 let user: IUserModel = {};
@@ -13,7 +14,7 @@ const headerss = {
 };
 
 const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
+  baseURL: environment.baseApiUrl,
   headers: headerss,
 });
 

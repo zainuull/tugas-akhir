@@ -48,6 +48,15 @@ export class NotifyService {
     });
   };
 
+  wrongPassword = () => {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Gagal',
+      html: 'Email atau Password yang anda masukkan salah',
+      confirmButtonText: `<span id="btn-confirm">OK</span>`,
+    });
+  };
+
   developmentFeature = () => {
     return new Promise((resolve) => {
       Swal.fire({
@@ -116,7 +125,7 @@ export class NotifyService {
         text: 'Kata Sandi Anda Akan diubah',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#CC313D',
+        confirmButtonColor: '#1e3a8a',
         cancelButtonColor: '#A8A8A8',
         confirmButtonText: `<span id="btn-confirm">Saya Yakin !</span>`,
         cancelButtonText: `<span id="btn-cancel">Batalkan</span>`,
@@ -134,7 +143,7 @@ export class NotifyService {
         text: 'Request akan di tolak !!',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#CC313D',
+        confirmButtonColor: '#1e3a8a',
         cancelButtonColor: '#A8A8A8',
         confirmButtonText: `<span id="btn-confirm">Saya Yakin !</span>`,
         cancelButtonText: `<span id="btn-cancel">Batalkan</span>`,
@@ -152,7 +161,7 @@ export class NotifyService {
         text: 'Data Anda Akan Dihapus !!',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#CC313D',
+        confirmButtonColor: '#1e3a8a',
         cancelButtonColor: '#A8A8A8',
         confirmButtonText: `<span id="btn-confirm">Saya Yakin !</span>`,
         cancelButtonText: `<span id="btn-cancel">Batalkan</span>`,
@@ -170,7 +179,7 @@ export class NotifyService {
         text: 'Pembayaran Akan Di Batalkan !!',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#CC313D',
+        confirmButtonColor: '#1e3a8a',
         cancelButtonColor: '#A8A8A8',
         confirmButtonText: `<span id="btn-confirm">Saya Yakin !</span>`,
         cancelButtonText: `<span id="btn-cancel">Batalkan</span>`,
@@ -187,7 +196,7 @@ export class NotifyService {
         text: 'Data Anda Sebelumnya akan Diperbaharui',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#CC313D',
+        confirmButtonColor: '#1e3a8a',
         cancelButtonColor: '#A8A8A8',
         confirmButtonText: `<span id="btn-confirm">Saya Yakin !</span>`,
         cancelButtonText: `<span id="btn-cancel">Batalkan</span>`,

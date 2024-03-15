@@ -3,7 +3,6 @@ import { useState } from 'react';
 import Dashboard from './(pages)/dashboard/page';
 import Header from './(sharedComponents)/header';
 import Sidebar from './(sharedComponents)/sidebar';
-import useDeviceDetection from './deviceDetection';
 
 export default function Home() {
   const [isNotif, setIsNotif] = useState<boolean>(false);

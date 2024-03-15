@@ -15,12 +15,15 @@ export interface IRequestInjectionDataModel {
   price?: number;
 }
 
-export interface IDataEndUser {
+export interface IDataParticipant {
   id?: string;
-  name: string;
-  email: string;
-  age: string;
-  province: string;
+  nik?: string;
+  name?: string;
+  place_of_birth?: string;
+  date_of_birth?: string;
+  biological_mother?: string;
+  work?: string;
+  protection_period?: string;
   action?: string;
 }
 

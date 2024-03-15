@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useEffect, useState } from 'react';

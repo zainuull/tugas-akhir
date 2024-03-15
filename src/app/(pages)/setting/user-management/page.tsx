@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import ListEndUser from './(presentation)/(components)/user/user';
+import ListEndUser from './(presentation)/(components)/user';
 import { IDataOperatorModel } from '@/core/services/domain/model/region.model';
 
 const UserManagement = () => {

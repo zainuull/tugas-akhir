@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import Header from '../(sharedComponents)/header';
 import Sidebar from '../(sharedComponents)/sidebar';
 import useOverlay from './store/store.notif';
-import { useEffect, useState } from 'react';
+import { SessionProvider } from 'next-auth/react';
 
 const listDisabled = ['/login', '/register'];
 
@@ -17,21 +17,24 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const headerDisabled = isHeaderDisabled(pathname);
   const [isOverlay, setIsOverlay] = useOverlay();
 
+
   return (
     <div className="bg-secondary w-full h-screen overflow-y-scroll">
-      {headerDisabled && (
-        <div className="relative">
-          <div className="w-full min-h-[100vh] flex gap-x-4 px-4 pt-2">
-            <Sidebar />
-            <div className="flex flex-col w-full pb-2">
-              <Header isOverlay={isOverlay} setIsOverlay={setIsOverlay} />
-              {children}
+      <SessionProvider>
+        {headerDisabled && (
+          <div className="relative">
+            <div className="w-full min-h-[100vh] flex gap-x-4 px-4 pt-2">
+              <Sidebar />
+              <div className="flex flex-col w-full pb-2">
+                <Header isOverlay={isOverlay} setIsOverlay={setIsOverlay} />
+                {children}
+              </div>
             </div>
+            {/* Overlay */}
+            {isOverlay && <span className="absolute bg-black/60 w-full min-h-full top-0"></span>}
           </div>
-          {/* Overlay */}
-          {isOverlay && <span className="absolute bg-black/60 w-full min-h-full top-0"></span>}
-        </div>
-      )}
+        )}
+      </SessionProvider>
     </div>
   );
 }

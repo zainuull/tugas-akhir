@@ -10,6 +10,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import Notification from './notification';
 import { NotifyService } from '@/core/services/notify/notifyService';
 import useUser from '@/core/services/store/store.user';
+import { signOut, useSession } from 'next-auth/react';
 
 interface IHeader {
   isOverlay: boolean;
@@ -17,7 +18,7 @@ interface IHeader {
 }
 
 const Header = (props: IHeader) => {
-  const [user] = useUser();
+  const session = useSession();
   const { isOverlay, setIsOverlay } = props;
   const [isMenu, setIsMenu] = useState<boolean>(false);
   const pathname = usePathname();
@@ -25,8 +26,7 @@ const Header = (props: IHeader) => {
   const router = useRouter();
   const [isNotif, setIsNotif] = useState<boolean>(false);
   const notify = new NotifyService();
-  const profil = user.data;
-  const role = user.data?.privilege?.general_role || '';
+  const profil = session.data?.user;
 
   const pathToPageName: { [key: string]: string } = {
     '/setting/user-management': 'User Management',
@@ -54,10 +54,7 @@ const Header = (props: IHeader) => {
   const handleLogout = () => {
     notify.confirmationLogout().then((res) => {
       if (res) {
-        window.localStorage.clear();
-        deleteCookie('token');
-        router.refresh();
-        router.push('/login');
+        signOut();
       }
     });
   };

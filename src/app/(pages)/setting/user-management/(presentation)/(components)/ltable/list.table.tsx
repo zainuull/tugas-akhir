@@ -6,7 +6,6 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
-import { mockDataEndUser } from '@/app/(pages)/setting/user-management/data/mock';
 import EnhancedTableHead, { Order } from './header.table';
 // Icons
 import { HiOutlinePencilSquare } from 'react-icons/hi2';
@@ -15,9 +14,12 @@ import Pagination from './pagination';
 import useOverlay from '@/app/(pages)/store/store.notif';
 import { useEffect, useState } from 'react';
 import UpdateEndUser from '../update/update';
-import { NotifyService } from '@/core/services/notify/notifyService';
-import VM from '../../../../vm/vm';
-import { IDataEndUser } from '@/app/(pages)/setting/user-management/domain/model/model';
+import { NotifyService, ToastifyService } from '@/core/services/notify/notifyService';
+
+import { IDataParticipant } from '@/app/(pages)/setting/user-management/domain/model/model';
+import VM from '../../vm/vm';
+import { HandleError } from '@/core/services/handleError/handleError';
+import ToastNotify from '@/core/services/notify/toast';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -29,10 +31,10 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-function getComparator<Key extends keyof IDataEndUser>(
+function getComparator<Key extends keyof IDataParticipant>(
   order: Order,
   orderBy: Key
-): (a: IDataEndUser, b: IDataEndUser) => number {
+): (a: IDataParticipant, b: IDataParticipant) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -51,27 +53,49 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 }
 
 export default function ListTable() {
-  const { getEndUser, endUser } = VM();
+  const { getData, datas, deleteData } = VM();
   const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<keyof IDataEndUser>('name');
+  const [orderBy, setOrderBy] = useState<keyof IDataParticipant>('name');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [isOverlay, setIsOverlay] = useOverlay();
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const [dataInput, setDataInput] = useState<IDataEndUser>({
+  const [dataInput, setDataInput] = useState<IDataParticipant>({
+    nik: '',
     name: '',
-    email: '',
-    age: '',
-    province: '',
+    place_of_birth: '',
+    biological_mother: '',
+    work: '',
+    protection_period: '',
   });
-  const rows = mockDataEndUser;
   const notifyService = new NotifyService();
+  const toastService = new ToastifyService();
+  const rows = datas?.data || [];
+  console.log(rows);
+
+  useEffect(() => {
+    notifyService.showLoading();
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    getData()
+      .then(() => {
+        notifyService.closeSwal();
+      })
+      .catch((err) => {
+        HandleError(err);
+      });
+  };
 
   const perPage = 4;
   const totalPage =
     rows.length % perPage == 0 ? +rows.length / perPage : Math.floor(rows.length / perPage + 1);
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof IDataEndUser) => {
+  const handleRequestSort = (
+    event: React.MouseEvent<unknown>,
+    property: keyof IDataParticipant
+  ) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -98,22 +122,32 @@ export default function ListTable() {
     [order, orderBy, page, perPage]
   );
 
-  const handleUpdate = (data: IDataEndUser) => {
+  const handleUpdate = (data: IDataParticipant) => {
     setIsOverlay(!isOverlay);
     setIsUpdate(!isUpdate);
     setDataInput({
       id: data.id,
+      nik: data.nik,
       name: data.name,
-      email: data.email,
-      age: data.age,
-      province: data.province,
+      place_of_birth: data.place_of_birth,
+      date_of_birth: data.date_of_birth,
+      biological_mother: data.biological_mother,
+      work: data.work,
+      protection_period: data.protection_period,
     });
   };
 
   const handleDelete = (id: string) => {
     notifyService.confirmationDelete().then((res) => {
       if (res) {
-        console.log('id', id);
+        deleteData(id)
+          .then(() => {
+            toastService.successDelete();
+            fetchData();
+          })
+          .catch((err) => {
+            HandleError(err);
+          });
       }
     });
   };
@@ -134,18 +168,12 @@ export default function ListTable() {
             {visibleRows.map((row, index) => {
               return (
                 <TableRow hover tabIndex={-1} key={row.id} className="cursor-pointer">
-                  <TableCell align="left" >
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="left" >
-                    {row.email}
-                  </TableCell>
-                  <TableCell align="left" >
-                    {row.age}
-                  </TableCell>
-                  <TableCell align="left" >
-                    {row.province}
-                  </TableCell>
+                  <TableCell align="left">{row.name}</TableCell>
+                  <TableCell align="left">{row.place_of_birth}</TableCell>
+                  <TableCell align="left">{row.date_of_birth}</TableCell>
+                  <TableCell align="left">{row.biological_mother}</TableCell>
+                  <TableCell align="left">{row.work}</TableCell>
+                  <TableCell align="left">{row.protection_period}</TableCell>
                   <TableCell align="left">
                     <span className="flex items-center gap-x-2">
                       <HiOutlinePencilSquare onClick={() => handleUpdate(row)} size={18} />
@@ -175,6 +203,7 @@ export default function ListTable() {
         dataInput={dataInput}
         setDataInput={setDataInput}
       />
+      <ToastNotify />
     </Box>
   );
 }
