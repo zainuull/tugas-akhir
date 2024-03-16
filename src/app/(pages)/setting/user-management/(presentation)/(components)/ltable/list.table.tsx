@@ -71,15 +71,14 @@ export default function ListTable() {
   const notifyService = new NotifyService();
   const toastService = new ToastifyService();
   const rows = datas?.data || [];
-  console.log(rows);
 
   useEffect(() => {
     notifyService.showLoading();
     fetchData();
   }, []);
 
-  const fetchData = () => {
-    getData()
+  const fetchData = async () => {
+    await getData()
       .then(() => {
         notifyService.closeSwal();
       })
@@ -119,7 +118,7 @@ export default function ListTable() {
         page * perPage,
         page * perPage + perPage
       ),
-    [order, orderBy, page, perPage]
+    [rows, order, orderBy, page, perPage]
   );
 
   const handleUpdate = (data: IDataParticipant) => {
@@ -166,6 +165,8 @@ export default function ListTable() {
           />
           <TableBody>
             {visibleRows.map((row, index) => {
+              console.log(row);
+
               return (
                 <TableRow hover tabIndex={-1} key={row.id} className="cursor-pointer">
                   <TableCell align="left">{row.name}</TableCell>
@@ -203,6 +204,7 @@ export default function ListTable() {
         dataInput={dataInput}
         setDataInput={setDataInput}
       />
+      <ToastNotify />
     </Box>
   );
 }

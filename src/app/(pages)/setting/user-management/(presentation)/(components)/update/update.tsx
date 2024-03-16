@@ -18,7 +18,7 @@ interface IUpdateEndUser {
 }
 
 const UpdateEndUser = (props: IUpdateEndUser) => {
-  const { updateData, getData } = VM();
+  const { updateData } = VM();
   const { isUpdate, setIsUpdate, isOverlay, setIsOverlay, dataInput, setDataInput } = props;
   const notifyService = new NotifyService();
   const toastService = new ToastifyService();
@@ -63,7 +63,7 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
       if (res) {
         updateData(dataInput?.id || '', payload)
           .then(() => {
-            getData();
+            window.location.reload();
             // toastService.successUpdate();
             handleClose();
           })

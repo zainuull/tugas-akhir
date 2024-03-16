@@ -48,7 +48,7 @@ const Sidebar = () => {
     <nav className="w-60 min-h-full  bg-primary rounded-t-lg text-white flex flex-col items-center gap-y-4 py-8 relative ">
       <Link href={'/'}>
         {/* <Image src={'/assets/logo.png'} alt="logo" width={150} height={150} /> */}
-        <h1 className='text-2xl font-bold'>Welcome</h1>
+        <h1 className="text-2xl font-bold">Welcome</h1>
       </Link>
       <Image src={'/assets/separator.png'} alt="logo" width={200} height={200} />
       {/* Dashboard */}
@@ -56,7 +56,7 @@ const Sidebar = () => {
         <Link
           href={'/dashboard'}
           className={`${
-            pathname == '/dashboard'
+            pathname == '/dashboard' || pathname == '/'
               ? 'bg-secondary transition-all duration-300 text-black font-bold'
               : 'cursor-pointer'
           } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>

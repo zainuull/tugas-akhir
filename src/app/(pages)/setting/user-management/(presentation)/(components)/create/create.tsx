@@ -6,6 +6,7 @@ import { FaRegCircleXmark } from 'react-icons/fa6';
 import Picker from './picker';
 import VM from '../../vm/vm';
 import { HandleError } from '@/core/services/handleError/handleError';
+import { useRouter } from 'next/navigation';
 
 interface ICreateUser {
   isAdd: boolean;
@@ -15,7 +16,7 @@ interface ICreateUser {
 }
 
 const CreateUser = (props: ICreateUser) => {
-  const { createData, getData } = VM();
+  const { createData } = VM();
   const { isAdd, setIsAdd, isOverlay, setIsOverlay } = props;
   const [dataInput, setDataInput] = useState({
     nik: '',
@@ -68,7 +69,7 @@ const CreateUser = (props: ICreateUser) => {
       if (res) {
         createData(payload)
           .then(() => {
-            getData();
+            window.location.reload();
             // toastService.successCreate();
             handleClose();
           })

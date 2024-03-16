@@ -14,7 +14,7 @@ const headerss = {
 };
 
 const instance = axios.create({
-  baseURL: environment.baseApiUrl,
+  baseURL: process.env.NEXT_PUBLIC_BASE_API_URL,
   headers: headerss,
 });
 
