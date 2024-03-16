@@ -20,8 +20,17 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
 
 export const PUT = async (req: Request, { params }: { params: { id: string } }) => {
   const id = params.id;
-  const { nik, name, place_of_birth, date_of_birth, biological_mother, work, protection_period } =
-    await req.json();
+  const {
+    nik,
+    name,
+    place_of_birth,
+    date_of_birth,
+    biological_mother,
+    work,
+    protection_period,
+    isPaid,
+    created_at,
+  } = await req.json();
 
   try {
     const data = await prisma.participant.update({
@@ -34,6 +43,8 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
         biological_mother,
         work,
         protection_period,
+        isPaid,
+        created_at,
       },
     });
     if (!data) {

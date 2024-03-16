@@ -2,8 +2,17 @@ import prisma from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 
 export const POST = async (req: Request) => {
-  const { nik, name, place_of_birth, date_of_birth, biological_mother, work, protection_period } =
-    await req.json();
+  const {
+    nik,
+    name,
+    place_of_birth,
+    date_of_birth,
+    biological_mother,
+    work,
+    protection_period,
+    isPaid,
+    created_at,
+  } = await req.json();
 
   if (!nik && !name) {
     return NextResponse.json({ status_code: 500, message: 'nik and name are required' });
@@ -18,6 +27,8 @@ export const POST = async (req: Request) => {
         biological_mother,
         work,
         protection_period,
+        isPaid,
+        created_at,
       },
     });
     console.log('Success to created', data);

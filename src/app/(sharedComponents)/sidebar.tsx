@@ -51,6 +51,21 @@ const Sidebar = () => {
         <h1 className="text-2xl font-bold">Welcome</h1>
       </Link>
       <Image src={'/assets/separator.png'} alt="logo" width={200} height={200} />
+      {/* Register */}
+      <div className="w-full flex justify-end">
+        <Link
+          href={'/form-register'}
+          className={`${
+            pathname == '/form-register'
+              ? 'bg-secondary transition-all duration-300 text-black font-bold'
+              : 'cursor-pointer'
+          } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
+          <div className="flex items-center gap-x-3">
+            <BsHouse size={20} />
+            Register
+          </div>
+        </Link>
+      </div>
       {/* Dashboard */}
       <div className="w-full flex justify-end">
         <Link
@@ -66,120 +81,21 @@ const Sidebar = () => {
           </div>
         </Link>
       </div>
-      {/* Request */}
-      {/* <div className="w-full flex justify-end">
-        <button
-          onClick={() => handleDropDown('request')}
-          className={` w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
-          <div className="w-full flex items-center gap-x-3">
-            <GoGitPullRequest size={20} />
-            Request
-            {isOpen.request ? (
-              <BsArrowDownShort className="translate-x-full" />
-            ) : (
-              <BsArrowRightShort className="translate-x-full" />
-            )}
-          </div>
-        </button>
-      </div> */}
-      {/* Request Menu */}
-      {/* {isOpen.request && (
-        <>
-          <div className={`w-full flex justify-end`}>
-            <Link
-              href={'/request/credit'}
-              className={`${
-                pathname.match(/^\/request\/credit/)
-                  ? 'bg-secondary transition-all duration-300 text-black font-bold'
-                  : 'cursor-pointer'
-              } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
-              <p> Credit</p>
-            </Link>
-          </div>
-          <div className={`w-full flex justify-end`}>
-            <Link
-              href={'/request/activation'}
-              className={`${
-                pathname.match(/^\/request\/activation/)
-                  ? 'bg-secondary transition-all duration-300 text-black font-bold'
-                  : 'cursor-pointer'
-              } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
-              <p> Activation</p>
-            </Link>
-          </div>
-          <div className={`w-full flex justify-end`}>
-            <Link
-              href={'/request/injection'}
-              className={`${
-                pathname.match(/^\/request\/injection/)
-                  ? 'bg-secondary transition-all duration-300 text-black font-bold'
-                  : 'cursor-pointer'
-              } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
-              <p> Injection</p>
-            </Link>
-          </div>
-          <div className={`w-full flex justify-end`}>
-            <Link
-              href={'/request/new-cards'}
-              className={`${
-                pathname.match(/^\/request\/new-cards/)
-                  ? 'bg-secondary transition-all duration-300 text-black font-bold'
-                  : 'cursor-pointer'
-              } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
-              <p> New Cards</p>
-            </Link>
-          </div>
-        </>
-      )} */}
-
-      {/* History */}
-      {/* <div className={`w-full flex justify-end`}>
+      {/* Participant */}
+      <div className="w-full flex justify-end">
         <Link
-          href={'/history'}
+          href={'/participant-management'}
           className={`${
-            pathname.match(/^\/history/)
+            pathname.match(/^\/participant-management/)
               ? 'bg-secondary transition-all duration-300 text-black font-bold'
               : 'cursor-pointer'
           } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
           <div className="flex items-center gap-x-3">
-            <BsClockHistory size={20} />
-            History
+            <GoGitPullRequest size={20} />
+            Data Peserta
           </div>
         </Link>
-      </div> */}
-
-      {/* Setting */}
-      <div className="w-full flex justify-end">
-        <button
-          onClick={() => handleDropDown('setting')}
-          className={` w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
-          <div className="w-full flex items-center gap-x-3">
-            <GoGear size={20} />
-            Setting
-            {isOpen.setting ? (
-              <BsArrowDownShort className="translate-x-full" />
-            ) : (
-              <BsArrowRightShort className="translate-x-full" />
-            )}
-          </div>
-        </button>
       </div>
-      {/* Setting Menu */}
-      {isOpen.setting && (
-        <>
-          <div className={`w-full flex justify-end text-sm`}>
-            <Link
-              href={'/setting/user-management'}
-              className={`${
-                pathname.match(/^\/setting\/user-management/)
-                  ? 'bg-secondary transition-all duration-300 text-black font-bold'
-                  : 'cursor-pointer'
-              } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
-              <p>User Management</p>
-            </Link>
-          </div>
-        </>
-      )}
     </nav>
   );
 };

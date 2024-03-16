@@ -61,6 +61,8 @@ id  String  @id @default(auto()) @map("_id") @db.ObjectId
   biological_mother       String?   
   work                    String?
   protection_period       String?
+  isPaid                  Boolean?
+  created_at              String?
 }
 
 model VerificationToken {

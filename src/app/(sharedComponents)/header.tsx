@@ -29,8 +29,8 @@ const Header = (props: IHeader) => {
   // const profil = session.data?.user;
 
   const pathToPageName: { [key: string]: string } = {
-    '/setting/user-management': 'User Management',
-    '/setting': 'Setting',
+    '/participant-management/detail': 'Detail Data Peserta',
+    '/participant-management': 'Data Peserta',
   };
 
   useEffect(() => {
@@ -47,10 +47,6 @@ const Header = (props: IHeader) => {
     setIsNotif(!isNotif);
   };
 
-  const deleteCookie = (cookieName: string) => {
-    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  };
-
   const handleLogout = () => {
     notify.confirmationLogout().then((res) => {
       if (res) {
@@ -62,7 +58,7 @@ const Header = (props: IHeader) => {
   return (
     <nav className="w-full h-24 rounded-lg p-4 bg-primary text-white flex items-center justify-between mb-2 select-none">
       <h1 className="flex items-center gap-x-2 px-2">
-        {pathname.startsWith('/history/detail') && (
+        {pathname.startsWith('/participant-management/detail') && (
           <button onClick={handleBack} className="hover:text-gray-200 transition-all">
             <HiArrowNarrowLeft />
           </button>
@@ -74,7 +70,7 @@ const Header = (props: IHeader) => {
         <IoNotificationsCircleOutline size={30} onClick={handleNotif} className="cursor-pointer" />
         <div className="flex items-center gap-x-4">
           <CgProfile size={27} />
-          <h1>{ 'unknown'}</h1>
+          <h1>{'unknown'}</h1>
           {isMenu ? (
             <IoChevronDownSharp onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />
           ) : (
