@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { BsHouse } from 'react-icons/bs';
 import { FaWpforms } from 'react-icons/fa6';
 import { GoGitPullRequest } from 'react-icons/go';
-import { RiAdminLine } from 'react-icons/ri';
 
 const Sidebar = () => {
   const [user] = useUser();

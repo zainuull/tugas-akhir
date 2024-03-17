@@ -19,7 +19,8 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "auth": ["./auth"]
     }
   },
   "include": [
@@ -27,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "prisma/schema.prisma"
-, "src/app/(pages)/test/page.tsx"  ],
+    "prisma/schema.prisma",
+    "src/app/(pages)/test/page.tsx"
+  ],
   "exclude": ["node_modules"]
 }

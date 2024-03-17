@@ -53,17 +53,18 @@ const Login = () => {
   const handleLogin = async (e: any) => {
     notifyService.showLoading();
     setIsLoading(true);
+
     try {
       const res = await signIn('credentials', {
         redirect: false,
         email: form?.email || '',
         password: form?.password || '',
-        callbackUrl: '/dashboard',
+        callbackUrl: '/',
       });
 
       if (!res?.error) {
         notifyService.successLogin();
-        router.push('/dashboard');
+        router.replace('/');
         Swal.close();
       } else {
         console.log(res?.error);

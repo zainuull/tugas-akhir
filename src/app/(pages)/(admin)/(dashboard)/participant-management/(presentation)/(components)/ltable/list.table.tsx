@@ -83,7 +83,7 @@ export default function ListTable({
   const rows = filterData || data;
   const router = useRouter();
 
-  const perPage = 4;
+  const perPage = 7;
   const totalPage =
     rows.length % perPage == 0 ? +rows.length / perPage : Math.floor(rows.length / perPage + 1);
 
@@ -170,6 +170,8 @@ export default function ListTable({
       }
     });
   };
+
+
 
   return (
     <Box sx={{ width: '100%' }}>

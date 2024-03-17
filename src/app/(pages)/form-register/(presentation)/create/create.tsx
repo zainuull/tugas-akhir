@@ -4,10 +4,8 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import { HandleError } from '@/core/services/handleError/handleError';
 import { useRouter } from 'next/navigation';
-import CameraComponent from './camera';
 import VM from '@/core/services/vm/vm';
 import useStoreDatas from '../store/store';
-import Picker from '@/app/(sharedComponents)/picker';
 import { UploadImage } from '@/app/(sharedComponents)/upload.image';
 
 const CreateUser = () => {
@@ -17,13 +15,13 @@ const CreateUser = () => {
     nik: '',
     name: '',
     place_of_birth: '',
+    date_of_birth: '',
     biological_mother: '',
     work: '',
     protection_period: '',
     created_at: '',
   });
   const [imageUrl, setImageUrl] = useState('');
-  const [timePicker, setTimePicker] = useState<dayjs.Dayjs | null>(null);
   const notifyService = new NotifyService();
   const toastifyService = new ToastifyService();
   const router = useRouter();
@@ -37,15 +35,13 @@ const CreateUser = () => {
 
   const handleSubmit = () => {
     const dateTimeFormat = 'YYYY-MM-DD';
-    let dateTimePart;
-    dateTimePart = timePicker ? timePicker.format(dateTimeFormat) : '';
     const currentDate = dayjs().format(dateTimeFormat);
 
     const payload = {
       nik: dataInput.nik,
       name: dataInput.name,
       place_of_birth: dataInput.place_of_birth,
-      date_of_birth: dateTimePart,
+      date_of_birth: dataInput.date_of_birth,
       biological_mother: dataInput.biological_mother,
       work: dataInput.work,
       protection_period: dataInput.protection_period,
@@ -68,7 +64,6 @@ const CreateUser = () => {
       }
     });
   };
-
 
   return (
     <div className={`w-full xl:w-2/5 min-h-96 bg-white rounded-lg pb-8`}>
@@ -120,7 +115,19 @@ const CreateUser = () => {
               placeholder="Masukkan tempat lahir anda"
             />
           </div>
-          <Picker setTimePicker={setTimePicker} timePicker={timePicker} />
+          <div className="flex flex-col gap-y-1 text-sm">
+            <label htmlFor="date_of_birth" className="font-medium">
+              Tanggal Lahir
+            </label>
+            <input
+              id="date_of_birth"
+              type="date"
+              value={dataInput.date_of_birth}
+              onChange={handleChange}
+              max={dayjs().format('YYYY-MM-DD')}
+              className="bg-gray-100 rounded-lg h-10 px-2 outline-none hover:outline-primary transition-all"
+            />
+          </div>
           <div className="flex flex-col gap-y-1 text-sm">
             <label htmlFor="biological_mother" className="font-medium">
               Nama Ibu Kandung

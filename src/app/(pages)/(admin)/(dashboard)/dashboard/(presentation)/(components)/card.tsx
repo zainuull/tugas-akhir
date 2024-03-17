@@ -1,22 +1,14 @@
 import { IDataParticipant } from '@/core/services/domain/model/IParticipant';
 
-const Card = ({ data }: { data: IDataParticipant[] }) => {
-  // Assuming currentDate is in the format 'YYYY-MM-DD'
-  const currentDate = new Date().toISOString().split('T')[0];
-
-  // Filtering data based on created_at field matching the current date
-  const filteredData = data.filter((item) => item.created_at === currentDate);
-
-  const lastUpdate = filteredData.map((data) => data.created_at);
-
+const Card = ({ data, todayData }: { data: number; todayData: number }) => {
   const datas = [
     {
       title: 'Peserta Baru Terdaftar Hari Ini',
-      value: filteredData.length,
+      value: todayData,
     },
     {
       title: 'Total Peserta',
-      value: data.length,
+      value: data,
     },
   ];
 

@@ -5,7 +5,6 @@ import { FaRegCircleXmark } from 'react-icons/fa6';
 import { HiOutlineXMark } from 'react-icons/hi2';
 import useOverlay from '../(pages)/(admin)/(dashboard)/store/store.notif';
 
-
 const dataNotif = [
   {
     title: 'Credit',

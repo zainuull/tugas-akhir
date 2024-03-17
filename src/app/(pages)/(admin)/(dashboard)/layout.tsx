@@ -8,9 +8,6 @@ export const metadata: Metadata = {
   title: 'Dashboard Tugas Akhir',
   description: 'This created tugas akhir',
   authors: [{ name: 'Tugas Akhir' }, { url: 'https://tugas-akhir-roan.vercel.app/' }],
-  // icons: {
-  //   icon: '/logo.png',
-  // },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

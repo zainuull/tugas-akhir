@@ -12,7 +12,13 @@ const Dashboard = () => {
   const data = datas?.data || [];
   const notifyService = new NotifyService();
 
-  
+  // Assuming currentDate is in the format 'YYYY-MM-DD'
+  const currentDate = new Date().toISOString().split('T')[0];
+
+  // Filtering data based on created_at field matching the current date
+  const todayData = data.filter((item) => item.created_at === currentDate);
+
+  const lastUpdate = todayData.map((data) => data.created_at);
 
   useEffect(() => {
     notifyService.showLoading();
@@ -31,15 +37,13 @@ const Dashboard = () => {
 
   return (
     <div className="w-full h-full grid grid-cols-1">
-      <Card data={data} />
+      <Card data={data.length} todayData={todayData.length} />
       <div className="bg-white h-full flex flex-col justify-center items-center">
         <span className="w-full flex flex-col xl:flex-row items-center justify-between xl:px-12 my-5">
           <h1 className="xl:text-xl font-semibold uppercase">
             Total Peserta Berdasarkan Masa Perlindungan
           </h1>
-          <h1 className="text-xs xl:text-sm text-gray-500">
-            Terakhir Update: 19 Feb 2024 19:00 WIB
-          </h1>
+          <h1 className="text-xs xl:text-sm text-gray-500">Terakhir Update: {lastUpdate[0]}</h1>
         </span>
         <HorizontalBars data={data} />
       </div>
