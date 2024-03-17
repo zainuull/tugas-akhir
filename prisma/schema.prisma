@@ -61,6 +61,7 @@ id  String  @id @default(auto()) @map("_id") @db.ObjectId
   biological_mother       String?   
   work                    String?
   protection_period       String?
+  image                   String?
   isPaid                  Boolean?
   created_at              String?
 }

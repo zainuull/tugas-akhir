@@ -1,11 +1,11 @@
 'use client';
 import DetailBiodata from './(components)/biodata/biodaa';
-import VM from '../../vm/vm';
 import Swal from 'sweetalert2';
 import { HandleError } from '@/core/services/handleError/handleError';
 import { useEffect } from 'react';
 import { NotifyService } from '@/core/services/notify/notifyService';
 import Photo from './(components)/photo/photo';
+import VM from '@/core/services/vm/vm';
 
 const DetailParticipant = ({ params }: { params: { id: string } }) => {
   const { getDataById, dataById } = VM();

@@ -28,6 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "prisma/schema.prisma"
-  ],
+, "src/app/(pages)/test/page.tsx"  ],
   "exclude": ["node_modules"]
 }

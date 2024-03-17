@@ -16,7 +16,7 @@ export interface IDataParticipant {
   biological_mother?: string;
   work?: string;
   protection_period?: string;
-  image_url?: string;
+  image?: string;
   isPaid?: boolean;
   action?: string;
   created_at?: string;

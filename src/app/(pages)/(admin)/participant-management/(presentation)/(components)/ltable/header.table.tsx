@@ -1,11 +1,10 @@
+import { IDataParticipant } from '@/core/services/domain/model/IParticipant';
 import Box from '@mui/material/Box';
-import Checkbox from '@mui/material/Checkbox';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import { visuallyHidden } from '@mui/utils';
-import { IDataParticipant } from '../../../domain/model/model';
 
 export type Order = 'asc' | 'desc';
 

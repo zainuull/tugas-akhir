@@ -10,6 +10,7 @@ export const POST = async (req: Request) => {
     biological_mother,
     work,
     protection_period,
+    image,
     isPaid,
     created_at,
   } = await req.json();
@@ -27,6 +28,7 @@ export const POST = async (req: Request) => {
         biological_mother,
         work,
         protection_period,
+        image,
         isPaid,
         created_at,
       },

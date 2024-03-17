@@ -1,5 +1,6 @@
+import { IDataParticipant } from '@/core/services/domain/model/IParticipant';
 import { atom, useAtom } from 'jotai';
-import { IDataParticipant } from '../../domain/model/model';
+
 
 const value: IDataParticipant = {};
 const store = atom(value);

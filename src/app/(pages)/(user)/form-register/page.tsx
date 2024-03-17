@@ -1,5 +1,4 @@
-import CreateUser from './(presentation)/(components)/create/create';
-
+import CreateUser from './(presentation)/create/create';
 
 const RegisterPage = () => {
   return (

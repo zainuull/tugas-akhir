@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 // Icons
 import { BsHouse, BsClockHistory, BsArrowRightShort, BsArrowDownShort } from 'react-icons/bs';
+import { FaWpforms } from 'react-icons/fa6';
 import { GoGitPullRequest, GoGear } from 'react-icons/go';
 
 const Sidebar = () => {
@@ -51,21 +52,6 @@ const Sidebar = () => {
         <h1 className="text-2xl font-bold">Welcome</h1>
       </Link>
       <Image src={'/assets/separator.png'} alt="logo" width={200} height={200} />
-      {/* Register */}
-      <div className="w-full flex justify-end">
-        <Link
-          href={'/form-register'}
-          className={`${
-            pathname == '/form-register'
-              ? 'bg-secondary transition-all duration-300 text-black font-bold'
-              : 'cursor-pointer'
-          } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
-          <div className="flex items-center gap-x-3">
-            <BsHouse size={20} />
-            Register
-          </div>
-        </Link>
-      </div>
       {/* Dashboard */}
       <div className="w-full flex justify-end">
         <Link
@@ -93,6 +79,21 @@ const Sidebar = () => {
           <div className="flex items-center gap-x-3">
             <GoGitPullRequest size={20} />
             Data Peserta
+          </div>
+        </Link>
+      </div>
+      {/* Register */}
+      <div className="w-full flex justify-end">
+        <Link
+          href={'/form-register'}
+          className={`${
+            pathname == '/form-register'
+              ? 'bg-secondary transition-all duration-300 text-black font-bold'
+              : 'cursor-pointer'
+          } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
+          <div className="flex items-center gap-x-3">
+            <FaWpforms size={20} />
+            Register Form
           </div>
         </Link>
       </div>

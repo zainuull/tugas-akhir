@@ -28,6 +28,7 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
     biological_mother,
     work,
     protection_period,
+    image,
     isPaid,
     created_at,
   } = await req.json();
@@ -43,6 +44,7 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
         biological_mother,
         work,
         protection_period,
+        image,
         isPaid,
         created_at,
       },

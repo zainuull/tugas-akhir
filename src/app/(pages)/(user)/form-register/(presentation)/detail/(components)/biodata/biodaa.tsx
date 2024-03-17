@@ -1,38 +1,80 @@
-import { IDataParticipant } from '@/app/(pages)/(admin)/participant-management/domain/model/model';
+import { IDataParticipant } from '@/core/services/domain/model/IParticipant';
+import ToastNotify from '@/core/services/notify/toast';
+import html2canvas from 'html2canvas';
+
 
 const DetailBiodata = ({ data }: { data: IDataParticipant }) => {
+  const convertToJpgAndDownload = async () => {
+    try {
+      const content = document.getElementById('registerContent');
+
+      // Create a canvas from the content
+      const canvas = await html2canvas(content!);
+
+      // Convert canvas to image data URL
+      const imageData = canvas.toDataURL('image/jpeg');
+
+      // Create a temporary link element
+      const link = document.createElement('a');
+      link.href = imageData;
+      link.download = 'Biodata.jpg';
+
+      // Simulate a click to trigger the download
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Error converting to JPG:', error);
+    }
+  };
+
   return (
-    <div className={`w-full xl:w-2/5 min-h-96 bg-white rounded-lg pb-8`}>
+    <>
       {data ? (
-        <div className="w-full flex flex-col gap-y-3 px-4 pt-2">
-          <h1 className="text-primary font-semibold">Biodata ID: {data.id}</h1>
-          <span className="flex gap-x-3 text-sm mt-4">
-            <span className="flex flex-col gap-y-4 font-semibold">
-              <p>NIK</p>
-              <p>Nama</p>
-              <p>Tempat Lahir</p>
-              <p>Tanggal Lahir</p>
-              <p>Ibu Kandung</p>
-              <p>Pekerjaan</p>
-              <p>Periode Perlindungan</p>
-              <p>Terdaftar Pada</p>
-            </span>
-            <span className="flex flex-col gap-y-4">
-              <p>: {data.nik}</p>
-              <p>: {data.name}</p>
-              <p>: {data.place_of_birth}</p>
-              <p>: {data.date_of_birth}</p>
-              <p>: {data.biological_mother}</p>
-              <p>: {data.work}</p>
-              <p>: {data.protection_period}</p>
-              <p>: {data.created_at}</p>
-            </span>
-          </span>
+        <div className="flex flex-col w-full h-full justify-center items-center">
+          <div
+            id="registerContent"
+            className="w-full xl:w-2/5  bg-white rounded-lg flex flex-col gap-y-3 px-2 xl:px-4 pt-2">
+            <h1 className="text-primary font-semibold w-full text-center underline">
+              Bukti Registrasi
+            </h1>
+            <div className="flex gap-x-3 text-sm mt-2">
+              <div className="flex flex-col gap-y-4 font-semibold truncate pb-10">
+                <p>NIK</p>
+                <p>Nama</p>
+                <p>Tempat Lahir</p>
+                <p>Tanggal Lahir</p>
+                <p>Ibu Kandung</p>
+                <p>Pekerjaan</p>
+                <p>Periode Perlindungan</p>
+                <p>Terdaftar Pada</p>
+              </div>
+              <div className="flex flex-col gap-y-4 truncate">
+                <p>: {data.nik}</p>
+                <p>: {data.name}</p>
+                <p>: {data.place_of_birth}</p>
+                <p>: {data.date_of_birth}</p>
+                <p>: {data.biological_mother}</p>
+                <p>: {data.work}</p>
+                <p>: {data.protection_period}</p>
+                <p>: {data.created_at}</p>
+              </div>
+            </div>
+          </div>
+          <p className="text-[10px] xl:text-sm text-center my-4 font-semibold">
+            Klik download dan tunjukkan bukti registrasi pada kasir
+          </p>
+          <button onClick={convertToJpgAndDownload} className="button">
+            Download
+          </button>
         </div>
       ) : (
         <p className="w-full h-full text-center text-xl text-gray-400 my-20">Not have the data</p>
       )}
-    </div>
+      <ToastNotify />
+    </>
   );
 };
 

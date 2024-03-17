@@ -2,12 +2,13 @@
 import { NotifyService, ToastifyService } from '@/core/services/notify/notifyService';
 import dayjs from 'dayjs';
 import { useState } from 'react';
-import { FaRegCircleXmark } from 'react-icons/fa6';
-import Picker from './picker';
-import VM from '../../vm/vm';
 import { HandleError } from '@/core/services/handleError/handleError';
 import { useRouter } from 'next/navigation';
-import useStoreDatas from '../../store/store';
+import CameraComponent from './camera';
+import VM from '@/core/services/vm/vm';
+import useStoreDatas from '../store/store';
+import Picker from '@/app/(sharedComponents)/picker';
+import { UploadImage } from '@/app/(sharedComponents)/upload.image';
 
 const CreateUser = () => {
   const { createData } = VM();
@@ -21,8 +22,10 @@ const CreateUser = () => {
     protection_period: '',
     created_at: '',
   });
+  const [imageUrl, setImageUrl] = useState('');
   const [timePicker, setTimePicker] = useState<dayjs.Dayjs | null>(null);
   const notifyService = new NotifyService();
+  const toastifyService = new ToastifyService();
   const router = useRouter();
 
   const handleChange = (e: any) => {
@@ -46,6 +49,7 @@ const CreateUser = () => {
       biological_mother: dataInput.biological_mother,
       work: dataInput.work,
       protection_period: dataInput.protection_period,
+      image: imageUrl,
       isPaid: false,
       created_at: currentDate,
     };
@@ -53,9 +57,10 @@ const CreateUser = () => {
     notifyService.confirmationCreate().then((res) => {
       if (res) {
         createData(payload)
-          .then((res) => {
+          .then(() => {
             setDatas(payload);
-            router.push('/form-register/detail')
+            router.push('/form-register/detail');
+            toastifyService.successCreate();
           })
           .catch((err) => {
             HandleError(err);
@@ -64,23 +69,30 @@ const CreateUser = () => {
     });
   };
 
+
   return (
     <div className={`w-full xl:w-2/5 min-h-96 bg-white rounded-lg pb-8`}>
       <div className="w-full flex flex-col px-4 pt-2">
         <h1 className="text-primary font-semibold">Form Registrasi</h1>
-        <form className="mt-5 flex flex-col gap-y-4">
+        <form className="mt-2 flex flex-col gap-y-2">
           <div className="flex flex-col gap-y-1 text-sm">
             <label htmlFor="nik" className="font-medium">
               NIK
             </label>
             <input
               id="nik"
-              type="text"
+              type="number"
               value={dataInput.nik}
               onChange={handleChange}
               className="bg-gray-100 rounded-lg h-10 px-2 outline-none hover:outline-primary transition-all"
               placeholder="Masukkan NIK anda"
+              maxLength={16}
             />
+            <label className="text-red-600">
+              {dataInput.nik.length < 16
+                ? 'Panjang NIK Minimal 16 Digit'
+                : dataInput.nik.length > 16 && 'Panjang NIK Maksimal 16 Digit'}
+            </label>
           </div>
           <div className="flex flex-col gap-y-1 text-sm">
             <label htmlFor="name" className="font-medium">
@@ -149,10 +161,24 @@ const CreateUser = () => {
               <option value="6 Bulan (Rp 100.800)">6 Bulan (Rp 100.800)</option>
             </select>
           </div>
+          <div className="flex flex-col gap-y-1 text-sm">
+            <label className="font-medium">
+              Upload Foto Selfie<span className="text-red-600">*</span>
+            </label>
+            <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
+          </div>
         </form>
+        {/* <CameraComponent /> */}
         <span className="w-full flex items-center justify-between gap-x-2 mt-5">
           <button className="cancel-button w-1/2 ">Batal</button>
-          <button onClick={handleSubmit} className="button w-1/2 ">
+          <button
+            onClick={handleSubmit}
+            className={`${
+              dataInput.nik.length >= 16 && dataInput.nik.length < 17 && imageUrl.length
+                ? 'button'
+                : 'disabled-button'
+            } w-1/2`}
+            disabled={dataInput.nik.length > 16 && imageUrl.length ? true : false}>
             Kirim
           </button>
         </span>

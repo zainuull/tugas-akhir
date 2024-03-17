@@ -2,31 +2,9 @@
 import * as React from 'react';
 import { BarChart } from '@mui/x-charts/BarChart';
 import { useEffect, useState } from 'react';
+import { IDataParticipant } from '@/core/services/domain/model/IParticipant';
 
-const dataset = [
-  {
-    jawa_barat: 59,
-    jawa_tengah: 57,
-    jawa_timur: 86,
-    month: 'Jan',
-  },
-  {
-    jawa_barat: 70,
-    jawa_tengah: 77,
-    jawa_timur: 40,
-    month: 'Feb',
-  },
-  {
-    jawa_barat: 44,
-    jawa_tengah: 37,
-    jawa_timur: 20,
-    month: 'Mar',
-  },
-];
-
-const valueFormatter = (value: number) => `${value} Peserta`;
-
-export default function BarsDataset() {
+export default function BarsDataset({ data }: { data: IDataParticipant[] }) {
   const [chartDimensions, setChartDimensions] = useState({ width: 0, height: 0 });
 
   useEffect(() => {
@@ -49,16 +27,41 @@ export default function BarsDataset() {
     };
   }, []);
 
+  const filteredData = data.reduce(
+    (acc, curr) => {
+      if (curr.protection_period.includes('1 Bulan')) {
+        acc['1 Bulan']++;
+      } else if (curr.protection_period.includes('3 Bulan')) {
+        acc['3 Bulan']++;
+      } else if (curr.protection_period.includes('6 Bulan')) {
+        acc['6 Bulan']++;
+      }
+      return acc;
+    },
+    { '1 Bulan': 0, '3 Bulan': 0, '6 Bulan': 0 }
+  );
+
+  // Function to get color based on index
+  const getColor = (index: number) => {
+    const colors = ['#FF5733', '#33FF57', '#5733FF'];
+    return colors[index % colors.length];
+  };
+
+  const dataset = Object.entries(filteredData).map(([month, total], index) => ({
+    month,
+    total,
+    color: getColor(index),
+  }));
+
+  const valueFormatter = (value: number) => `${value} Peserta`;
+
   return (
     <div style={{ width: chartDimensions.width, height: chartDimensions.height }}>
       <BarChart
         dataset={dataset}
         xAxis={[{ scaleType: 'band', dataKey: 'month' }]}
-        series={[
-          { dataKey: 'jawa_barat', label: 'Jawa Barat', valueFormatter },
-          { dataKey: 'jawa_tengah', label: 'Jawa Tengah', valueFormatter },
-          { dataKey: 'jawa_timur', label: 'Jawa Timur', valueFormatter },
-        ]}
+        series={[{ dataKey: 'total', label: 'Peserta', valueFormatter }]}
+        colors={['#1e3a8a']}
       />
     </div>
   );

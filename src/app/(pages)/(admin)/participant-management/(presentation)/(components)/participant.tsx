@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react';
 import CreateUser from './create/create';
 // Icons
 import { HiMagnifyingGlass } from 'react-icons/hi2';
-import VM from '../vm/vm';
 import { HandleError } from '@/core/services/handleError/handleError';
 import { NotifyService } from '@/core/services/notify/notifyService';
 import useOverlay from '../../../store/store.notif';
+import VM from '@/core/services/vm/vm';
 
 const ListParticipant = () => {
   const { getData, datas } = VM();

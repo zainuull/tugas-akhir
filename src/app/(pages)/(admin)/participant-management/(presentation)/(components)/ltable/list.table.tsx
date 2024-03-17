@@ -12,19 +12,15 @@ import { HiOutlinePencilSquare } from 'react-icons/hi2';
 import { CiTrash } from 'react-icons/ci';
 import Pagination from './pagination';
 import useOverlay from '@/app/(pages)/(admin)/store/store.notif';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import UpdateEndUser from '../update/update';
 import { NotifyService, ToastifyService } from '@/core/services/notify/notifyService';
-
-import {
-  IDataParticipant,
-  IParticipant,
-} from '@/app/(pages)/(admin)/participant-management/domain/model/model';
-import VM from '../../vm/vm';
 import { HandleError } from '@/core/services/handleError/handleError';
 import ToastNotify from '@/core/services/notify/toast';
 import { useRouter } from 'next/navigation';
 import { BsFillCheckCircleFill, BsXCircleFill } from 'react-icons/bs';
+import { IDataParticipant } from '@/core/services/domain/model/IParticipant';
+import VM from '@/core/services/vm/vm';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -78,6 +74,7 @@ export default function ListTable({
     biological_mother: '',
     work: '',
     protection_period: '',
+    image: '',
   });
   const notifyService = new NotifyService();
   const toastService = new ToastifyService();
@@ -130,6 +127,7 @@ export default function ListTable({
       biological_mother: data.biological_mother,
       work: data.work,
       protection_period: data.protection_period,
+      image: data.image,
       isPaid: data.isPaid,
     });
   };
@@ -139,7 +137,7 @@ export default function ListTable({
       if (res) {
         deleteData(id)
           .then(() => {
-            // toastService.successDelete();
+            toastService.successDelete();
             fetchData();
           })
           .catch((err) => {

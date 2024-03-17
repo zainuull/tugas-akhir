@@ -1,12 +1,13 @@
 'use client';
 import { NotifyService, ToastifyService } from '@/core/services/notify/notifyService';
 import { FaRegCircleXmark } from 'react-icons/fa6';
-import Picker from '../create/picker';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import VM from '../../vm/vm';
 import { HandleError } from '@/core/services/handleError/handleError';
-import { IDataParticipant } from '../../../domain/model/model';
+import Picker from '@/app/(sharedComponents)/picker';
+import { IDataParticipant } from '@/core/services/domain/model/IParticipant';
+import VM from '@/core/services/vm/vm';
+import { UploadImage } from '@/app/(sharedComponents)/upload.image';
 
 interface IUpdateEndUser {
   isUpdate: boolean;
@@ -22,7 +23,9 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
   const { updateData } = VM();
   const { isUpdate, setIsUpdate, isOverlay, setIsOverlay, dataInput, setDataInput, fetchData } =
     props;
+  const [imageUrl, setImageUrl] = useState('');
   const notifyService = new NotifyService();
+  const toastifyService = new ToastifyService();
   const [timePicker, setTimePicker] = useState<dayjs.Dayjs | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState('');
 
@@ -66,7 +69,9 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
       biological_mother: dataInput.biological_mother,
       work: dataInput.work,
       protection_period: dataInput.protection_period,
+      image: imageUrl,
       isPaid: dataInput.isPaid,
+      created_at: dataInput.created_at,
     };
 
     notifyService.confirmationUpdate().then((res) => {
@@ -75,6 +80,7 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
           .then(() => {
             fetchData();
             handleClose();
+            toastifyService.successUpdate();
           })
           .catch((err) => {
             HandleError(err);
@@ -97,19 +103,27 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
             className="text-red-600 cursor-pointer"
           />
         </span>
-        <form className="mt-5 flex flex-col gap-y-2">
+        <form className="mt-2 flex flex-col gap-y-2">
           <div className="flex flex-col gap-y-1 text-sm">
             <label htmlFor="nik" className="font-medium">
               NIK
             </label>
             <input
               id="nik"
-              type="text"
+              type="number"
               value={dataInput.nik}
               onChange={handleChange}
               className="bg-gray-100 rounded-lg h-10 px-2 outline-none hover:outline-primary transition-all"
               placeholder="Masukkan NIK anda"
+              maxLength={16}
             />
+            <label className="text-red-600">
+              {dataInput.nik.length < 16
+                ? 'Panjang NIK Minimal 16 Digit'
+                : dataInput.nik.length > 16
+                ? 'Panjang NIK Maksimal 16 Digit'
+                : ''}
+            </label>
           </div>
           <div className="flex flex-col gap-y-1 text-sm">
             <label htmlFor="name" className="font-medium">
@@ -137,7 +151,7 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
               placeholder="Masukkan tempat lahir anda"
             />
           </div>
-          <Picker setTimePicker={setTimePicker} timePicker={timePicker} dataInput={dataInput} />
+          <Picker setTimePicker={setTimePicker} timePicker={timePicker} />
           <div className="flex flex-col gap-y-1 text-sm">
             <label htmlFor="biological_mother" className="font-medium">
               Nama Ibu Kandung
@@ -170,6 +184,7 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
             </label>
             <select
               id="protection_period"
+              value={selectedPeriod}
               onChange={handleChange}
               className="bg-gray-100 rounded-lg h-10 px-2 outline-none hover:outline-primary transition-all">
               <option value="-">Pilih Masa Perlindungan</option>
@@ -178,12 +193,23 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
               <option value="6 Bulan (Rp 100.800)">6 Bulan (Rp 100.800)</option>
             </select>
           </div>
+          <div className="flex flex-col gap-y-1 text-sm">
+            <label className="font-medium">
+              Upload Foto Selfie<span className="text-red-600">*</span>
+            </label>
+            <UploadImage imageUrl={dataInput.image} setImageUrl={setImageUrl} />
+          </div>
         </form>
         <span className="w-full flex items-center justify-between gap-x-2 mt-5">
           <button onClick={handleClose} className="cancel-button w-1/2 ">
             Batal
           </button>
-          <button onClick={handleSubmit} className="button w-1/2 ">
+          <button
+            onClick={handleSubmit}
+            className={`${
+              dataInput.nik.length >= 16 && dataInput.nik.length < 17 ? 'button' : 'disabled-button'
+            } w-1/2`}
+            disabled={dataInput.nik.length > 16 ? true : false}>
             Update
           </button>
         </span>

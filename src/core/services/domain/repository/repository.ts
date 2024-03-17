@@ -1,8 +1,10 @@
-import { IEndUserModel, IOperatorModel, IRegionModel } from '../model/region.model';
+import { IDataParticipant, IParticipant } from "../model/IParticipant";
+
 
 export interface Repository {
-  getOperator(): Promise<IOperatorModel>;
-  getRegion(): Promise<IRegionModel>;
-  getEndUser(): Promise<IEndUserModel>;
-  getRole(): Promise<IRegionModel>;
+  getData(query?: IDataParticipant): Promise<IParticipant>;
+  getDataById(id: string): Promise<IParticipant>;
+  createData(data: IDataParticipant): Promise<IParticipant>;
+  deleteData(id: string): Promise<IParticipant>;
+  updateData(id: string, data: IDataParticipant): Promise<IParticipant>;
 }

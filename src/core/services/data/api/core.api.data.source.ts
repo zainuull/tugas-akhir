@@ -1,27 +1,30 @@
 import { Http } from '@/core/services/http/http.client';
-import { IOperatorModel, IRegionModel, IRoleModel } from '../../domain/model/region.model';
 import { Repository } from '../../domain/repository/repository';
+import { IDataParticipant, IParticipant } from '../../domain/model/IParticipant';
 
 export default class CoreAPIDataSourceImpl implements Repository {
-  async getOperator() {
-    const res = await Http.get<IOperatorModel>('/operator');
+  async getData(query?: IDataParticipant) {
+    const res = await Http.get<IParticipant>('/api/participant', query);
     return res.data;
   }
 
-  async getRegion() {
-    const res = await Http.get<IRegionModel>('/region');
+  async getDataById(id: string) {
+    const res = await Http.get<IParticipant>(`/api/participant/${id}`);
     return res.data;
   }
 
-  async getEndUser() {
-    const res = await Http.get<IRegionModel>('/end-user');
-    console.log('res', res.data);
-
+  async createData(data: IDataParticipant) {
+    const res = await Http.post<IParticipant>('/api/participant', data);
     return res.data;
   }
 
-  async getRole() {
-    const res = await Http.get<IRoleModel>('/role');
+  async deleteData(id: string) {
+    const res = await Http.delete<IParticipant>(`/api/participant/${id}`);
+    return res.data;
+  }
+
+  async updateData(id: string, data: IDataParticipant) {
+    const res = await Http.put<IParticipant>(`/api/participant/${id}`, data);
     return res.data;
   }
 }
