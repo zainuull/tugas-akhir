@@ -1,23 +1,30 @@
 'use client';
-import Link from 'next/link';
-import VM from './(presentation)/vm/vm';
-import { useRef, useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { useEffect, useRef, useState } from 'react';
+import { signIn, useSession } from 'next-auth/react';
 import { IUserContextModel } from './domain/model/model';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { HandleError } from '@/core/services/handleError/handleError';
 import { NotifyService } from '@/core/services/notify/notifyService';
 import Swal from 'sweetalert2';
 import useDeviceDetection from '@/app/deviceDetection';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 
 const Login = () => {
-  const { loginData } = VM();
-  // const { getProfileWToken } = VMOverview();
   const router = useRouter();
   const [viewPwd, setViewPwd] = useState(false);
   const [form, setForm] = useState<IUserContextModel>();
   const notifyService = new NotifyService();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const { status } = useSession();
+
+  useEffect(() => {
+    if (status !== 'authenticated') {
+      return;
+    } else {
+      redirect('/dashboard');
+    }
+  }, [status]);
 
   const passwordRef = useRef<HTMLInputElement>(null);
 
@@ -43,9 +50,9 @@ const Login = () => {
     setViewPwd(!viewPwd);
   };
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: any) => {
     notifyService.showLoading();
-
+    setIsLoading(true);
     try {
       const res = await signIn('credentials', {
         redirect: false,
@@ -54,7 +61,7 @@ const Login = () => {
         callbackUrl: '/dashboard',
       });
 
-      if (res?.ok) {
+      if (!res?.error) {
         notifyService.successLogin();
         router.push('/dashboard');
         Swal.close();
@@ -64,13 +71,15 @@ const Login = () => {
       }
     } catch (error) {
       console.log(error);
+      HandleError(error);
+      setError('Email atau password salah');
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     // Check if the pressed key is Enter (key code 13)
     if (e.key === 'Enter') {
-      handleLogin();
+      handleLogin(e);
     }
   };
 
@@ -91,7 +100,7 @@ const Login = () => {
             onKeyDown={handleKeyDown}
             required
           />
-          <div className="w-4/5  relative">
+          <div className="w-4/5 relative">
             <input
               id="password"
               ref={passwordRef}
@@ -121,9 +130,10 @@ const Login = () => {
             className={`${
               form?.password?.length ? 'bg-primary' : 'disabled-button'
             } rounded-lg px-6 h-16 w-4/5  text-white`}>
-            Masuk
+            {isLoading ? 'Loading...' : 'Login'}
           </button>
         </form>
+        {error && <p className="text-red-500 font-medium">{error}</p>}
         <p className="text-primary  mt-2 cursor-pointer">Lupa Kata Sandi?</p>
       </div>
     </div>

@@ -1,6 +1,5 @@
 'use client';
 import { GoUpload } from 'react-icons/go';
-import Image from 'next/image';
 import { CldUploadButton, CloudinaryUploadWidgetResults } from 'next-cloudinary';
 import React, { useState } from 'react';
 import { NotifyService } from '@/core/services/notify/notifyService';
@@ -56,7 +55,7 @@ export const UploadImage = (props: IUploadImage) => {
           imageUrl && 'pointer-events-none'
         }`}>
         {!imageUrl && <GoUpload size={25} />}
-        {imageUrl && <p className="text-xs">Name File {imageUrl.slice(0, 50)}</p>}
+        {imageUrl && <p className="text-xs">Name File {imageUrl.slice(0, 30)}</p>}
       </CldUploadButton>
       {imageUrl && (
         <button

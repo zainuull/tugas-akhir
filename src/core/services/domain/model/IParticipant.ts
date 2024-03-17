@@ -23,3 +23,24 @@ export interface IDataParticipant {
 }
 
 export interface IParticipantQuery extends IQueryModel {}
+
+// Admin
+export interface IAdmin extends IModel {
+  status?: string;
+  message?: string;
+  data?: IDataAdmin[];
+}
+
+export interface IDataAdmin {
+  id?: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  old_password?: string;
+  role?: string;
+  image?: string;
+  action?: string;
+  created_at?: string;
+}
+
+export interface IAdminQuery extends IQueryModel {}

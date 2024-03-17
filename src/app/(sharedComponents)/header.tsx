@@ -4,12 +4,10 @@ import { IoNotificationsCircleOutline, IoChevronDownSharp } from 'react-icons/io
 import { CgProfile } from 'react-icons/cg';
 import { IoChevronForward } from 'react-icons/io5';
 import { HiArrowNarrowLeft } from 'react-icons/hi';
-
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import Notification from './notification';
 import { NotifyService } from '@/core/services/notify/notifyService';
-import useUser from '@/core/services/store/store.user';
 import { signOut, useSession } from 'next-auth/react';
 
 interface IHeader {
@@ -18,7 +16,7 @@ interface IHeader {
 }
 
 const Header = (props: IHeader) => {
-  // const session = useSession();
+  const session = useSession();
   const { isOverlay, setIsOverlay } = props;
   const [isMenu, setIsMenu] = useState<boolean>(false);
   const pathname = usePathname();
@@ -26,11 +24,13 @@ const Header = (props: IHeader) => {
   const router = useRouter();
   const [isNotif, setIsNotif] = useState<boolean>(false);
   const notify = new NotifyService();
-  // const profil = session.data?.user;
+  const profil = session.data?.user;
 
   const pathToPageName: { [key: string]: string } = {
     '/participant-management/detail': 'Detail Data Peserta',
     '/participant-management': 'Data Peserta',
+    '/admin-management/detail': 'Detail Data Admin',
+    '/admin-management': 'Data Admin',
   };
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const Header = (props: IHeader) => {
         <IoNotificationsCircleOutline size={30} onClick={handleNotif} className="cursor-pointer" />
         <div className="flex items-center gap-x-4">
           <CgProfile size={27} />
-          <h1>{'unknown'}</h1>
+          <h1>{profil?.name ? profil?.name : 'unknown'}</h1>
           {isMenu ? (
             <IoChevronDownSharp onClick={() => setIsMenu(!isMenu)} className="cursor-pointer" />
           ) : (

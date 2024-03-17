@@ -3,7 +3,7 @@
 import { IoMegaphoneSharp } from 'react-icons/io5';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 import { HiOutlineXMark } from 'react-icons/hi2';
-import useOverlay from '../(pages)/(admin)/store/store.notif';
+import useOverlay from '../(pages)/(admin)/(dashboard)/store/store.notif';
 
 
 const dataNotif = [

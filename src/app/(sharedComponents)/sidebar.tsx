@@ -5,9 +5,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 // Icons
-import { BsHouse, BsClockHistory, BsArrowRightShort, BsArrowDownShort } from 'react-icons/bs';
+import { BsHouse } from 'react-icons/bs';
 import { FaWpforms } from 'react-icons/fa6';
-import { GoGitPullRequest, GoGear } from 'react-icons/go';
+import { GoGitPullRequest } from 'react-icons/go';
+import { RiAdminLine } from 'react-icons/ri';
 
 const Sidebar = () => {
   const [user] = useUser();
@@ -82,6 +83,21 @@ const Sidebar = () => {
           </div>
         </Link>
       </div>
+      {/* Admin */}
+      {/* <div className="w-full flex justify-end">
+        <Link
+          href={'/admin-management'}
+          className={`${
+            pathname.match(/^\/admin-management/)
+              ? 'bg-secondary transition-all duration-300 text-black font-bold'
+              : 'cursor-pointer'
+          } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>
+          <div className="flex items-center gap-x-3">
+            <RiAdminLine size={20} />
+            Data Admin
+          </div>
+        </Link>
+      </div> */}
       {/* Register */}
       <div className="w-full flex justify-end">
         <Link

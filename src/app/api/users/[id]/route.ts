@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 export const GET = async (req: Request, { params }: { params: { id: string } }) => {
   const id = params.id;
   try {
-    const data = await prisma.user.findUnique({
+    const data = await prisma.users.findUnique({
       where: { id },
     });
     if (!data) {
@@ -20,18 +20,20 @@ export const GET = async (req: Request, { params }: { params: { id: string } }) 
 
 export const PUT = async (req: Request, { params }: { params: { id: string } }) => {
   const id = params.id;
-  const { name, email, password, role } = await req.json();
+  const { name, email, password, role, image, created_at } = await req.json();
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    const data = await prisma.user.update({
+    const data = await prisma.users.update({
       where: { id },
       data: {
         name,
         email,
         password: hashedPassword,
         role,
+        image,
+        created_at,
       },
     });
     if (!data) {
@@ -47,7 +49,7 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
 export const DELETE = async (req: Request, { params }: { params: { id: string } }) => {
   const id = params.id;
   try {
-    const data = await prisma.user.delete({ where: { id } });
+    const data = await prisma.users.delete({ where: { id } });
     if (!data) {
       return NextResponse.json({ status_code: 404, message: 'Data not found', data: [] });
     }

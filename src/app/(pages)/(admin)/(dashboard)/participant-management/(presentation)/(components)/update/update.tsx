@@ -197,7 +197,7 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
             <label className="font-medium">
               Upload Foto Selfie<span className="text-red-600">*</span>
             </label>
-            <UploadImage imageUrl={dataInput.image} setImageUrl={setImageUrl} />
+            <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
           </div>
         </form>
         <span className="w-full flex items-center justify-between gap-x-2 mt-5">

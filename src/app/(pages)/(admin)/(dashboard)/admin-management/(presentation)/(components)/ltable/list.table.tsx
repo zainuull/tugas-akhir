@@ -11,16 +11,15 @@ import EnhancedTableHead, { Order } from './header.table';
 import { HiOutlinePencilSquare } from 'react-icons/hi2';
 import { CiTrash } from 'react-icons/ci';
 import Pagination from './pagination';
-import useOverlay from '@/app/(pages)/(admin)/store/store.notif';
+import useOverlay from '@/app/(pages)/(admin)/(dashboard)/store/store.notif';
 import { useState } from 'react';
-import UpdateEndUser from '../update/update';
 import { NotifyService, ToastifyService } from '@/core/services/notify/notifyService';
 import { HandleError } from '@/core/services/handleError/handleError';
 import ToastNotify from '@/core/services/notify/toast';
 import { useRouter } from 'next/navigation';
-import { BsFillCheckCircleFill, BsXCircleFill } from 'react-icons/bs';
-import { IDataParticipant } from '@/core/services/domain/model/IParticipant';
+import { IDataAdmin } from '@/core/services/domain/model/IParticipant';
 import VM from '@/core/services/vm/vm';
+import UpdateAdmin from '../update/update';
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
@@ -32,10 +31,10 @@ function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   return 0;
 }
 
-function getComparator<Key extends keyof IDataParticipant>(
+function getComparator<Key extends keyof IDataAdmin>(
   order: Order,
   orderBy: Key
-): (a: IDataParticipant, b: IDataParticipant) => number {
+): (a: IDataAdmin, b: IDataAdmin) => number {
   return order === 'desc'
     ? (a, b) => descendingComparator(a, b, orderBy)
     : (a, b) => -descendingComparator(a, b, orderBy);
@@ -56,39 +55,35 @@ function stableSort<T>(array: readonly T[], comparator: (a: T, b: T) => number) 
 export default function ListTable({
   data,
   fetchData,
+  filterData,
 }: {
-  data: IDataParticipant[];
+  data: IDataAdmin[];
   fetchData: Function;
+  filterData: IDataAdmin[];
 }) {
-  const { deleteData, updateData } = VM();
+  const { deleteDataAdmin } = VM();
   const [order, setOrder] = useState<Order>('asc');
-  const [orderBy, setOrderBy] = useState<keyof IDataParticipant>('name');
+  const [orderBy, setOrderBy] = useState<keyof IDataAdmin>('name');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);
   const [isOverlay, setIsOverlay] = useOverlay();
   const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const [dataInput, setDataInput] = useState<IDataParticipant>({
-    nik: '',
+  const [dataInput, setDataInput] = useState<IDataAdmin>({
     name: '',
-    place_of_birth: '',
-    biological_mother: '',
-    work: '',
-    protection_period: '',
+    email: '',
+    role: '',
     image: '',
   });
   const notifyService = new NotifyService();
   const toastService = new ToastifyService();
-  const rows = data || [];
+  const rows = filterData || data;
   const router = useRouter();
 
   const perPage = 4;
   const totalPage =
     rows.length % perPage == 0 ? +rows.length / perPage : Math.floor(rows.length / perPage + 1);
 
-  const handleRequestSort = (
-    event: React.MouseEvent<unknown>,
-    property: keyof IDataParticipant
-  ) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof IDataAdmin) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -115,27 +110,24 @@ export default function ListTable({
     [rows, order, orderBy, page, perPage]
   );
 
-  const handleUpdate = (data: IDataParticipant) => {
+  const handleUpdate = (data: IDataAdmin) => {
     setIsOverlay(!isOverlay);
     setIsUpdate(!isUpdate);
     setDataInput({
       id: data.id,
-      nik: data.nik,
       name: data.name,
-      place_of_birth: data.place_of_birth,
-      date_of_birth: data.date_of_birth,
-      biological_mother: data.biological_mother,
-      work: data.work,
-      protection_period: data.protection_period,
+      email: data.email,
+      password: data.password,
+      role: data.role,
       image: data.image,
-      isPaid: data.isPaid,
+      created_at: data.created_at,
     });
   };
 
   const handleDelete = (id: string) => {
     notifyService.confirmationDelete().then((res) => {
       if (res) {
-        deleteData(id)
+        deleteDataAdmin(id)
           .then(() => {
             toastService.successDelete();
             fetchData();
@@ -148,25 +140,7 @@ export default function ListTable({
   };
 
   const handleDetail = (id: string) => {
-    router.push(`/participant-management/detail/${id}`);
-  };
-
-  const hanldePaid = (data: IDataParticipant) => {
-    const payload = {
-      isPaid: true,
-    };
-
-    notifyService.confirmationUpdate().then((res) => {
-      if (res) {
-        updateData(data.id, payload)
-          .then(() => {
-            fetchData();
-          })
-          .catch((err) => {
-            HandleError(err);
-          });
-      }
-    });
+    router.push(`/admin-management/detail/${id}`);
   };
 
   return (
@@ -189,39 +163,13 @@ export default function ListTable({
                     onClick={() => handleDetail(row.id)}
                     align="left"
                     className="text-xs hover:font-semibold transition-all">
-                    {row.nik}
-                  </TableCell>
-                  <TableCell align="left" className="text-xs">
                     {row.name}
                   </TableCell>
                   <TableCell align="left" className="text-xs">
-                    {row.place_of_birth}
+                    {row.email}
                   </TableCell>
                   <TableCell align="left" className="text-xs">
-                    {row.date_of_birth}
-                  </TableCell>
-                  <TableCell align="left" className="text-xs">
-                    {row.biological_mother}
-                  </TableCell>
-                  <TableCell align="left" className="text-xs">
-                    {row.work}
-                  </TableCell>
-                  <TableCell align="left" className="text-xs">
-                    {row.protection_period}
-                  </TableCell>
-                  <TableCell align="left" className="text-xs">
-                    {row.isPaid ? (
-                      <BsFillCheckCircleFill
-                        size={18}
-                        className="w-full text-left text-green-600"
-                      />
-                    ) : (
-                      <BsXCircleFill
-                        onClick={() => hanldePaid(row)}
-                        size={18}
-                        className="w-full text-left text-red-600"
-                      />
-                    )}
+                    {row.role}
                   </TableCell>
                   <TableCell align="left">
                     <span className="flex items-center gap-x-2">
@@ -243,8 +191,8 @@ export default function ListTable({
           <Pagination pageNow={page} totalPage={+totalPage} setPage={setPage} />
         </nav>
       </TableContainer>
-      {/* Update End User */}
-      <UpdateEndUser
+      {/* Update Admin */}
+      <UpdateAdmin
         isUpdate={isUpdate}
         setIsUpdate={setIsUpdate}
         isOverlay={isOverlay}

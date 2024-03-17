@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';
 
 export const POST = async (req: Request) => {
-  const { name, email, password, role } = await req.json();
+  const { name, email, password, role, image, created_at } = await req.json();
 
   if (!name && !email && !password) {
     return NextResponse.json({ status_code: 500, message: 'name and email are required' });
@@ -12,12 +12,14 @@ export const POST = async (req: Request) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    const data = await prisma.user.create({
+    const data = await prisma.users.create({
       data: {
         name,
         email,
         password: hashedPassword,
         role,
+        image,
+        created_at,
       },
     });
     console.log('Success to created', data);
@@ -30,7 +32,7 @@ export const POST = async (req: Request) => {
 
 export const GET = async () => {
   try {
-    const data = await prisma.user.findMany();
+    const data = await prisma.users.findMany();
     if (!data) {
       return NextResponse.json({ status_code: 404, message: 'Data not found', data: [] });
     }

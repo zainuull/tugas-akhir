@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import Dashboard from './(pages)/(admin)/dashboard/page';
+import Dashboard from './(pages)/(admin)/(dashboard)/dashboard/page';
 import Header from './(sharedComponents)/header';
 import Sidebar from './(sharedComponents)/sidebar';
 

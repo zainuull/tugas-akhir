@@ -1,9 +1,9 @@
 'use client';
-import useOverlay from './store/store.notif';
 import Sidebar from '@/app/(sharedComponents)/sidebar';
 import Header from '@/app/(sharedComponents)/header';
+import useOverlay from './(dashboard)/store/store.notif';
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [isOverlay, setIsOverlay] = useOverlay();
 
   return (

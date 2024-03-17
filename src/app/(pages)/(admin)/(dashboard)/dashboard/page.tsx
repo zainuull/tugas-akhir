@@ -12,6 +12,8 @@ const Dashboard = () => {
   const data = datas?.data || [];
   const notifyService = new NotifyService();
 
+  
+
   useEffect(() => {
     notifyService.showLoading();
     fetchData();

@@ -15,6 +15,7 @@ const ListParticipant = () => {
   const [isAdd, setIsAdd] = useState<boolean>(false);
   const notifyService = new NotifyService();
   const data = datas?.data || [];
+  const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     notifyService.showLoading();
@@ -36,6 +37,15 @@ const ListParticipant = () => {
     setIsAdd(!isAdd);
   };
 
+  // Filter data based on search query
+  const filteredData = data.filter((item) =>
+    Object.values(item).some(
+      (value) =>
+        typeof value === 'string' && value.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
+
   return (
     <div className="w-full min-h-40 bg-white flex flex-col rounded-lg ">
       <h1 className="pt-4 px-4">User Management</h1>
@@ -47,11 +57,16 @@ const ListParticipant = () => {
         <span className="col-span-1 h-full flex items-end">
           <div className="bg-gray-100 w-full flex items-center gap-x-2 rounded-lg px-2 h-10 file:">
             <HiMagnifyingGlass />
-            <input className={`bg-transparent outline-none w-full text-sm`} placeholder="Search" />
+            <input
+              className={`bg-transparent outline-none w-full text-sm`}
+              placeholder="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </span>
       </div>
-      <ListTable data={data} fetchData={fetchData} />
+      <ListTable data={data} fetchData={fetchData} filterData={filteredData}/>
       {/* Add User */}
       <CreateUser
         isAdd={isAdd}
