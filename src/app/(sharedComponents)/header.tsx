@@ -27,6 +27,7 @@ const Header = (props: IHeader) => {
   const profil = session.data?.user;
 
   const pathToPageName: { [key: string]: string } = {
+    '/dashboard/participant-today': 'Peserta Hari Ini',
     '/participant-management/detail': 'Detail Data Peserta',
     '/participant-management': 'Data Peserta',
     '/admin-management/detail': 'Detail Data Admin',
@@ -58,11 +59,12 @@ const Header = (props: IHeader) => {
   return (
     <nav className="w-full h-24 rounded-lg p-4 bg-primary text-white flex items-center justify-between mb-2 select-none">
       <h1 className="flex items-center gap-x-2 px-2">
-        {pathname.startsWith('/participant-management/detail') && (
-          <button onClick={handleBack} className="hover:text-gray-200 transition-all">
-            <HiArrowNarrowLeft />
-          </button>
-        )}
+        {pathname.startsWith('/participant-management/detail') ||
+          (pathname.startsWith('/dashboard/participant-today') && (
+            <button onClick={handleBack} className="hover:text-gray-200 transition-all">
+              <HiArrowNarrowLeft />
+            </button>
+          ))}
         <span className="text-xl">{pageName}</span>
       </h1>
       <div className="flex items-center gap-x-4">
