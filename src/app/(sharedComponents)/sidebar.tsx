@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { BsHouse } from 'react-icons/bs';
 import { FaWpforms } from 'react-icons/fa6';
 import { GoGitPullRequest } from 'react-icons/go';
+import { RiAdminLine } from 'react-icons/ri';
 
 const Sidebar = () => {
   const [user] = useUser();
@@ -57,7 +58,9 @@ const Sidebar = () => {
         <Link
           href={'/dashboard'}
           className={`${
-            pathname == '/dashboard' || pathname == '/' || pathname == '/dashboard/participant-today'
+            pathname == '/dashboard' ||
+            pathname == '/' ||
+            pathname == '/dashboard/participant-today'
               ? 'bg-secondary transition-all duration-300 text-black font-bold'
               : 'cursor-pointer'
           } w-5/6 flex items-center justify-between rounded-l-lg p-2`}>

@@ -189,7 +189,7 @@ const UpdateEndUser = (props: IUpdateEndUser) => {
               className="bg-gray-100 rounded-lg h-10 px-2 outline-none hover:outline-primary transition-all">
               <option value="-">Pilih Masa Perlindungan</option>
               <option value="1 Bulan (Rp 16.800)">1 Bulan (Rp 16.800)</option>
-              <option value="3 Bulan (Rp 59.400)">3 Bulan (Rp 59.400)</option>
+              <option value="3 Bulan (Rp 50.400)">3 Bulan (Rp 50.400)</option>
               <option value="6 Bulan (Rp 100.800)">6 Bulan (Rp 100.800)</option>
             </select>
           </div>
