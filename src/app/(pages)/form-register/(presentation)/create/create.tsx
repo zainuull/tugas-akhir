@@ -175,7 +175,6 @@ const CreateUser = () => {
             <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl} />
           </div>
         </form>
-        {/* <CameraComponent /> */}
         <span className="w-full flex items-center justify-between gap-x-2 mt-5">
           <button className="cancel-button w-1/2 ">Batal</button>
           <button

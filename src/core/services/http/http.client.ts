@@ -1,5 +1,4 @@
 import { IUserModel } from '@/app/(auth)/login/domain/model/model';
-import environment from '@/environments/env.production';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 let user: IUserModel = {};
