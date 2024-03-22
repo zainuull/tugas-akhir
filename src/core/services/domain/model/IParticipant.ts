@@ -20,6 +20,7 @@ export interface IDataParticipant {
   isPaid?: boolean;
   action?: string;
   created_at?: string;
+  no_antrian?: string;
 }
 
 export interface IParticipantQuery extends IQueryModel {}

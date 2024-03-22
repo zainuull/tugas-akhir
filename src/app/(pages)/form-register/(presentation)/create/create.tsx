@@ -10,7 +10,7 @@ import { UploadImage } from '@/app/(sharedComponents)/upload.image';
 
 const CreateUser = () => {
   const { createData } = VM();
-  const [, setDatas] = useStoreDatas();
+  const [datas, setDatas] = useStoreDatas();
   const [dataInput, setDataInput] = useState({
     nik: '',
     name: '',
@@ -37,6 +37,32 @@ const CreateUser = () => {
     const dateTimeFormat = 'YYYY-MM-DD';
     const currentDate = dayjs().format(dateTimeFormat);
 
+    // Get the current hour and minute
+    const currentHour = dayjs().hour();
+    const currentMinute = dayjs().minute();
+
+    // Calculate the queue number based on the current hour and minute
+    let queueNumber;
+    if (currentHour >= 9 && currentHour < 17) {
+      const hourOffset = currentHour - 9; // Offset from 9 AM
+      const minuteOffset = currentMinute / 60; // Fractional part of the hour
+      const registrationSlot = hourOffset + minuteOffset; // Each hour is a slot
+      const queueWithinSlot = Math.floor(registrationSlot * 10); // 10 registrations per hour
+      queueNumber = queueWithinSlot + 1; // Add 1 to start from 1
+    } else {
+      // Queue number calculation for after 5 PM can be handled differently, or you can set a default value
+      queueNumber = -1; // Set a default value indicating registration is not allowed
+    }
+
+    // Calculate the hour range for the current slot
+    const hourStart = Math.floor(currentHour); // Start hour of the slot
+    const hourEnd = hourStart + 1; // End hour of the slot
+
+    // Format the current date and time with hour range
+    const currentDateTime = `${currentDate} Pukul:${hourStart}:00 - ${hourEnd}:00 WIB`;
+
+    const queu = `${queueNumber} (${currentDateTime})`;
+
     const payload = {
       nik: dataInput.nik,
       name: dataInput.name,
@@ -48,10 +74,12 @@ const CreateUser = () => {
       image: imageUrl,
       isPaid: false,
       created_at: currentDate,
+      no_antrian: queu,
     };
 
     notifyService.confirmationCreate().then((res) => {
       if (res) {
+        setDatas(payload);
         createData(payload)
           .then(() => {
             setDatas(payload);
@@ -125,7 +153,7 @@ const CreateUser = () => {
               value={dataInput.date_of_birth}
               onChange={handleChange}
               max={dayjs().format('YYYY-MM-DD')}
-              className="bg-gray-100 rounded-lg h-10 px-2 outline-none hover:outline-primary transition-all"
+              className="w-full bg-gray-100 rounded-lg h-10 px-2 outline-none hover:outline-primary transition-all"
             />
           </div>
           <div className="flex flex-col gap-y-1 text-sm">
