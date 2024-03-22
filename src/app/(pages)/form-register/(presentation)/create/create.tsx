@@ -1,7 +1,7 @@
 'use client';
 import { NotifyService, ToastifyService } from '@/core/services/notify/notifyService';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HandleError } from '@/core/services/handleError/handleError';
 import { useRouter } from 'next/navigation';
 import VM from '@/core/services/vm/vm';
@@ -25,6 +25,17 @@ const CreateUser = () => {
   const notifyService = new NotifyService();
   const toastifyService = new ToastifyService();
   const router = useRouter();
+
+  useEffect(() => {
+    const currentTime = new Date().getHours();
+    if (currentTime < 8 || currentTime >= 23) {
+      notifyService.notAccess().then((res) => {
+        if (res) {
+          router.push('https://www.google.com/');
+        }
+      });
+    }
+  }, []);
 
   const handleChange = (e: any) => {
     setDataInput({

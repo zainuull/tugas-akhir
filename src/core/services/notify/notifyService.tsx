@@ -57,6 +57,20 @@ export class NotifyService {
     });
   };
 
+  notAccess = () => {
+    return new Promise((resolve) => {
+      Swal.fire({
+        title: 'Form registrasi belum dibuka',
+        html: 'Jadwal dimulai dari pukul 08:00 - 23:00',
+        icon: 'warning',
+        confirmButtonColor: '#1e3a8a',
+        confirmButtonText: `<span id="btn-confirm">Kembali</span>`,
+      }).then((result) => {
+        resolve(result.isConfirmed);
+      });
+    });
+  };
+
   developmentFeature = () => {
     return new Promise((resolve) => {
       Swal.fire({
