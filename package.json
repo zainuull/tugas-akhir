@@ -23,6 +23,7 @@
     "bcrypt": "^5.1.1",
     "cloudinary": "^2.0.3",
     "cookie": "^0.6.0",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.10",
     "jotai": "^2.6.4",
     "mock-aws-s3": "^4.0.2",

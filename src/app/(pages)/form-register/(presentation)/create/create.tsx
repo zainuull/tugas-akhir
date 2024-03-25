@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import VM from '@/core/services/vm/vm';
 import useStoreDatas from '../store/store';
 import { UploadImage } from '@/app/(sharedComponents)/upload.image';
+import { isWeekend } from 'date-fns';
 
 const CreateUser = () => {
   const { createData } = VM();
@@ -27,8 +28,18 @@ const CreateUser = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const currentTime = new Date().getHours();
-    if (currentTime < 8 || currentTime >= 23) {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+
+    // Check if it's a weekend
+    if (isWeekend(currentTime)) {
+      notifyService.notAccess().then((res) => {
+        if (res) {
+          router.push('https://www.google.com/');
+        }
+      });
+    } else if (currentHour < 8 || currentHour >= 23) {
+      // Check if it's outside of working hours
       notifyService.notAccess().then((res) => {
         if (res) {
           router.push('https://www.google.com/');
@@ -36,7 +47,7 @@ const CreateUser = () => {
       });
     }
   }, []);
-
+  
   const handleChange = (e: any) => {
     setDataInput({
       ...dataInput,
