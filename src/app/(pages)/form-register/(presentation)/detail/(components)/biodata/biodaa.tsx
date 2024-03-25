@@ -41,7 +41,7 @@ const DetailBiodata = ({ data }: { data: IDataParticipant }) => {
               Bukti Registrasi
             </h1>
             <div className="flex gap-x-3 text-sm mt-2">
-              <div className="flex flex-col gap-y-4 font-semibold truncate pb-10">
+              <div className="flex flex-col gap-y-4 font-semibold truncate pb-5">
                 <p>NIK</p>
                 <p>Nama</p>
                 <p>Tempat Lahir</p>
@@ -64,9 +64,12 @@ const DetailBiodata = ({ data }: { data: IDataParticipant }) => {
                 <p>: {data.no_antrian}</p>
               </div>
             </div>
+            <p className="w-full text-center text-xs pb-10">
+              Silahkan datang sesuai no antrian ke kantor cabang bekasi cikarang
+            </p>
           </div>
           <p className="text-[10px] xl:text-sm text-center my-4 font-semibold">
-            Klik download dan tunjukkan bukti registrasi pada kasir
+            Klik download dan tunjukan ke kantor BPJS Ketenagakerjaan cabang Bekasi Cikarang
           </p>
           <button onClick={convertToJpgAndDownload} className="button">
             Download

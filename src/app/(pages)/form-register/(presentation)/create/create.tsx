@@ -2,12 +2,13 @@
 import { NotifyService, ToastifyService } from '@/core/services/notify/notifyService';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
-import { HandleError } from '@/core/services/handleError/handleError';
+
 import { useRouter } from 'next/navigation';
 import VM from '@/core/services/vm/vm';
 import useStoreDatas from '../store/store';
 import { UploadImage } from '@/app/(sharedComponents)/upload.image';
 import { isWeekend } from 'date-fns';
+import 'dayjs/locale/id';
 
 const CreateUser = () => {
   const { createData } = VM();
@@ -24,7 +25,6 @@ const CreateUser = () => {
   });
   const [imageUrl, setImageUrl] = useState('');
   const notifyService = new NotifyService();
-  const toastifyService = new ToastifyService();
   const router = useRouter();
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const CreateUser = () => {
       });
     }
   }, []);
-  
+
   const handleChange = (e: any) => {
     setDataInput({
       ...dataInput,
@@ -56,7 +56,7 @@ const CreateUser = () => {
   };
 
   const handleSubmit = () => {
-    const dateTimeFormat = 'YYYY-MM-DD';
+    const dateTimeFormat = 'DD MMMM YYYY';
     const currentDate = dayjs().format(dateTimeFormat);
 
     // Get the current hour and minute
@@ -102,15 +102,16 @@ const CreateUser = () => {
     notifyService.confirmationCreate().then((res) => {
       if (res) {
         setDatas(payload);
-        createData(payload)
-          .then(() => {
-            setDatas(payload);
-            router.push('/form-register/detail');
-            toastifyService.successCreate();
-          })
-          .catch((err) => {
-            HandleError(err);
-          });
+        router.push('/form-register/detail');
+        // createData(payload)
+        //   .then(() => {
+        //     setDatas(payload);
+        //     router.push('/form-register/detail');
+        //     toastifyService.successCreate();
+        //   })
+        //   .catch((err) => {
+        //     HandleError(err);
+        //   });
       }
     });
   };
