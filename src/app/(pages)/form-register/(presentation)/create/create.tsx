@@ -9,6 +9,7 @@ import useStoreDatas from '../store/store';
 import { UploadImage } from '@/app/(sharedComponents)/upload.image';
 import { isWeekend } from 'date-fns';
 import 'dayjs/locale/id';
+import { HandleError } from '@/core/services/handleError/handleError';
 
 const CreateUser = () => {
   const { createData } = VM();
@@ -25,6 +26,7 @@ const CreateUser = () => {
   });
   const [imageUrl, setImageUrl] = useState('');
   const notifyService = new NotifyService();
+  const toastifyService = new ToastifyService();
   const router = useRouter();
 
   useEffect(() => {
@@ -83,7 +85,7 @@ const CreateUser = () => {
     // Format the current date and time with hour range
     const currentDateTime = `${currentDate} Pukul:${hourStart}:00 - ${hourEnd}:00 WIB`;
 
-    const queu = `${queueNumber} (${currentDateTime})`;
+    const queu = `${currentDateTime}`;
 
     const payload = {
       nik: dataInput.nik,
@@ -101,17 +103,15 @@ const CreateUser = () => {
 
     notifyService.confirmationCreate().then((res) => {
       if (res) {
-        setDatas(payload);
-        router.push('/form-register/detail');
-        // createData(payload)
-        //   .then(() => {
-        //     setDatas(payload);
-        //     router.push('/form-register/detail');
-        //     toastifyService.successCreate();
-        //   })
-        //   .catch((err) => {
-        //     HandleError(err);
-        //   });
+        createData(payload)
+          .then(() => {
+            setDatas(payload);
+            router.push('/form-register/detail');
+            toastifyService.successCreate();
+          })
+          .catch((err) => {
+            HandleError(err);
+          });
       }
     });
   };

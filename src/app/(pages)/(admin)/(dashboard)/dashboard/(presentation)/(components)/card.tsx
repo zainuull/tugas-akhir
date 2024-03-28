@@ -7,7 +7,7 @@ const Card = ({ data, todayData }: { data: number; todayData: number }) => {
 
   const datas = [
     {
-      title: 'Peserta Baru Terdaftar Hari Ini',
+      title: 'Data Peserta Baru',
       value: todayData,
     },
     {

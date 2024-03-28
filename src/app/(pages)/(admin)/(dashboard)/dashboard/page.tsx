@@ -12,13 +12,13 @@ const Dashboard = () => {
   const data = datas?.data || [];
   const notifyService = new NotifyService();
 
-  // Assuming currentDate is in the format 'YYYY-MM-DD'
-  const currentDate = new Date().toISOString().split('T')[0];
-
   // Filtering data based on created_at field matching the current date
-  const todayData = data.filter((item) => item.created_at === currentDate);
+  const todayData = data.filter((item) => item.isPaid);
 
-  const lastUpdate = todayData.map((data) => data.created_at);
+  const latestObject = data?.reduce(
+    (prev, current) => (new Date(current.created_at) > new Date(prev.created_at) ? current : prev),
+    data[0]
+  );
 
   useEffect(() => {
     notifyService.showLoading();
@@ -43,7 +43,9 @@ const Dashboard = () => {
           <h1 className="xl:text-xl font-semibold uppercase">
             Total Peserta Berdasarkan Masa Perlindungan
           </h1>
-          <h1 className="text-xs xl:text-sm text-gray-500">Terakhir Update: {lastUpdate[0]}</h1>
+          <h1 className="text-xs xl:text-sm text-gray-500">
+            Terakhir Update: {latestObject?.created_at}
+          </h1>
         </span>
         <HorizontalBars data={data} />
       </div>
