@@ -18,7 +18,7 @@ const ListParticipant = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   // Filtering data based on created_at field matching the current date
-  const todayData = data.filter((item) => item.isPaid);
+  const todayData = data.filter((item) => item.isPaid === false);
 
   useEffect(() => {
     notifyService.showLoading();

@@ -35,6 +35,7 @@ const Dashboard = () => {
       });
   };
 
+
   return (
     <div className="w-full h-full grid grid-cols-1">
       <Card data={data.length} todayData={todayData.length} />

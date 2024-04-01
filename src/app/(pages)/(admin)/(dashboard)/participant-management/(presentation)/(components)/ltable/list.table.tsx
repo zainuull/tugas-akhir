@@ -171,8 +171,6 @@ export default function ListTable({
     });
   };
 
-
-
   return (
     <Box sx={{ width: '100%' }}>
       <TableContainer className="relative pb-16">

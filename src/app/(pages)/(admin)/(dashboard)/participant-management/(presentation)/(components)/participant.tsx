@@ -17,6 +17,8 @@ const ListParticipant = () => {
   const data = datas?.data || [];
   const [searchQuery, setSearchQuery] = useState<string>('');
 
+  const result = data.filter((item) => item.isPaid);
+
   useEffect(() => {
     notifyService.showLoading();
     fetchData();
@@ -38,13 +40,12 @@ const ListParticipant = () => {
   };
 
   // Filter data based on search query
-  const filteredData = data.filter((item) =>
+  const filteredData = result.filter((item) =>
     Object.values(item).some(
       (value) =>
         typeof value === 'string' && value.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
-
 
   return (
     <div className="w-full min-h-40 bg-white flex flex-col rounded-lg ">
@@ -66,7 +67,7 @@ const ListParticipant = () => {
           </div>
         </span>
       </div>
-      <ListTable data={data} fetchData={fetchData} filterData={filteredData}/>
+      <ListTable data={result} fetchData={fetchData} filterData={filteredData} />
       {/* Add User */}
       <CreateUser
         isAdd={isAdd}
