@@ -21,6 +21,7 @@ export interface IDataParticipant {
   action?: string;
   created_at?: string;
   no_antrian?: string;
+  time?: string;
 }
 
 export interface IParticipantQuery extends IQueryModel {}

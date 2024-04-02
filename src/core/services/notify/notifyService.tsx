@@ -56,6 +56,19 @@ export class NotifyService {
       confirmButtonText: `<span id="btn-confirm">OK</span>`,
     });
   };
+  quotaFull = () => {
+    return new Promise((resolve) => {
+      Swal.fire({
+        title: 'Form registrasi telah ditutup',
+        html: 'Kuota hari ini sudah penuh (350)',
+        icon: 'warning',
+        confirmButtonColor: '#1e3a8a',
+        confirmButtonText: `<span id="btn-confirm">Kembali</span>`,
+      }).then((result) => {
+        resolve(result.isConfirmed);
+      });
+    });
+  };
 
   notAccess = () => {
     return new Promise((resolve) => {

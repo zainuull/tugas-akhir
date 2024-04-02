@@ -1,12 +1,14 @@
 'use client';
 import { NotifyService, ToastifyService } from '@/core/services/notify/notifyService';
 import dayjs from 'dayjs';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 import Picker from '@/app/(sharedComponents)/picker';
 import { HandleError } from '@/core/services/handleError/handleError';
 import VM from '@/core/services/vm/vm';
 import { UploadImage } from '@/app/(sharedComponents)/upload.image';
+import { useRouter } from 'next/navigation';
+import { isWeekend } from 'date-fns';
 
 interface ICreateUser {
   isAdd: boolean;
@@ -32,6 +34,28 @@ const CreateUser = (props: ICreateUser) => {
   const [timePicker, setTimePicker] = useState<dayjs.Dayjs | null>(null);
   const notifyService = new NotifyService();
   const toastService = new ToastifyService();
+  const router = useRouter();
+
+  useEffect(() => {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+
+    // Check if it's a weekend
+    if (isWeekend(currentTime)) {
+      notifyService.notAccess().then((res) => {
+        if (res) {
+          router.push('https://www.google.com/');
+        }
+      });
+    } else if (currentHour < 8 || currentHour >= 23) {
+      // Check if it's outside of working hours
+      notifyService.notAccess().then((res) => {
+        if (res) {
+          router.push('https://www.google.com/');
+        }
+      });
+    }
+  }, [isAdd]);
 
   const handleChange = (e: any) => {
     setDataInput({
@@ -58,7 +82,55 @@ const CreateUser = (props: ICreateUser) => {
     const dateTimeFormat = 'YYYY-MM-DD';
     let dateTimePart;
     dateTimePart = timePicker ? timePicker.format(dateTimeFormat) : '';
-    const currentDate = dayjs().format(dateTimeFormat);
+    const currentDate = dayjs().add(1, 'days').format(dateTimeFormat);
+    const createdDate = dayjs().format(dateTimeFormat);
+
+    // Get the current hour and minute
+    const currentHour = dayjs().hour();
+    const currentMinute = dayjs().minute();
+
+    let queueNumber;
+    if (currentHour >= 8 && currentHour < 15 && currentHour !== 15) {
+      const hourOffset = currentHour - 8; // Offset from 8 AM
+      const minuteOffset = currentMinute / 60; // Fractional part of the hour
+      const registrationSlot = hourOffset + minuteOffset; // Each hour is a slot
+      const queueWithinSlot = Math.floor(registrationSlot * 40); // 40 registrations per hour
+      queueNumber = queueWithinSlot + 1; // Add 1 to start from 1
+    } else if (currentHour === 15 && currentMinute <= 30) {
+      // Special handling for the slot ending at 15:30
+      const hourOffset = currentHour - 8; // Offset from 8 AM
+      const minuteOffset = currentMinute / 60; // Fractional part of the hour
+      const registrationSlot = hourOffset + minuteOffset; // Each hour is a slot
+      const queueWithinSlot = Math.floor(registrationSlot * 40); // 40 registrations per hour
+      queueNumber = queueWithinSlot + 1; // Add 1 to start from 1
+      if (queueWithinSlot >= 350) {
+        // Adjust queue number if the maximum slot limit is reached
+        queueNumber = -1; // Set a default value indicating registration is not allowed
+        // Prevent access to the page
+        notifyService.quotaFull().then((res) => {
+          if (res) {
+            router.push('https://www.google.com/');
+          }
+        });
+        return; // Exit the function early
+      }
+    } else {
+      // Queue number calculation for after 15:30 or before 8 AM
+      queueNumber = -1; // Set a default value indicating registration is not allowed
+      // Prevent access to the page
+      notifyService.notAccess().then((res) => {
+        if (res) {
+          router.push('https://www.google.com/');
+        }
+      });
+      return; // Exit the function early
+    }
+    // Calculate the hour range for the current slot
+    const hourStart = Math.floor(currentHour); // Start hour of the slot
+    const hourEnd = hourStart === 15 && currentMinute > 30 ? 16 : hourStart + 1; // End hour of the slot
+
+    // Format the current date and time with hour range
+    const currentDateTime = `${currentDate} Pukul:${hourStart}:00 - ${hourEnd}:00 WIB`;
 
     const payload = {
       nik: dataInput.nik,
@@ -70,7 +142,9 @@ const CreateUser = (props: ICreateUser) => {
       protection_period: dataInput.protection_period,
       image: imageUrl,
       isPaid: false,
-      created_at: currentDate,
+      created_at: createdDate,
+      no_antrian: String(queueNumber),
+      time: currentDateTime,
     };
 
     notifyService.confirmationCreate().then((res) => {
@@ -80,6 +154,7 @@ const CreateUser = (props: ICreateUser) => {
             fetchData();
             handleClose();
             toastService.successCreate();
+            router.push('/dashboard/participant-today');
           })
           .catch((err) => {
             HandleError(err);

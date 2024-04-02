@@ -61,7 +61,7 @@ export default function ListTable({
   filterData: IDataParticipant[];
 }) {
   const { deleteData, updateData } = VM();
-  const [order, setOrder] = useState<Order>('asc');
+  const [order, setOrder] = useState<Order>('desc');
   const [orderBy, setOrderBy] = useState<keyof IDataParticipant>('name');
   const [selected, setSelected] = useState<readonly string[]>([]);
   const [page, setPage] = useState(0);

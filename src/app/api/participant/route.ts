@@ -1,3 +1,4 @@
+import { HandleError } from '@/core/services/handleError/handleError';
 import prisma from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 
@@ -13,6 +14,8 @@ export const POST = async (req: Request) => {
     image,
     isPaid,
     created_at,
+    no_antrian,
+    time,
   } = await req.json();
 
   if (!nik && !name) {
@@ -31,11 +34,14 @@ export const POST = async (req: Request) => {
         image,
         isPaid,
         created_at,
+        no_antrian,
+        time,
       },
     });
     console.log('Success to created', data);
     return NextResponse.json({ status_code: 200, message: 'Success to created', data });
   } catch (error) {
+    HandleError(error)
     console.log(error);
     return NextResponse.json({ status_code: 500, message: 'Some error occurred' });
   }

@@ -2,7 +2,6 @@ import { IDataParticipant } from '@/core/services/domain/model/IParticipant';
 import ToastNotify from '@/core/services/notify/toast';
 import html2canvas from 'html2canvas';
 
-
 const DetailBiodata = ({ data }: { data: IDataParticipant }) => {
   const convertToJpgAndDownload = async () => {
     try {
@@ -49,8 +48,8 @@ const DetailBiodata = ({ data }: { data: IDataParticipant }) => {
                 <p>Ibu Kandung</p>
                 <p>Pekerjaan</p>
                 <p>Periode Perlindungan</p>
-                <p>Terdaftar Pada</p>
                 <p>No Antrian</p>
+                <p>Waktu</p>
               </div>
               <div className="flex flex-col gap-y-4 truncate">
                 <p>: {data.nik}</p>
@@ -60,8 +59,9 @@ const DetailBiodata = ({ data }: { data: IDataParticipant }) => {
                 <p>: {data.biological_mother}</p>
                 <p>: {data.work}</p>
                 <p>: {data.protection_period}</p>
-                <p>: {data.created_at}</p>
+
                 <p>: {data.no_antrian}</p>
+                <p>: {data.time}</p>
               </div>
             </div>
             <p className="w-full text-center text-xs pb-10">

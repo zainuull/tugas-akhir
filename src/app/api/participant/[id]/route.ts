@@ -31,6 +31,8 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
     image,
     isPaid,
     created_at,
+    no_antrian,
+    time
   } = await req.json();
 
   try {
@@ -47,6 +49,8 @@ export const PUT = async (req: Request, { params }: { params: { id: string } }) 
         image,
         isPaid,
         created_at,
+        no_antrian,
+        time,
       },
     });
     if (!data) {

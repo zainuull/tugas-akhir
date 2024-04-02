@@ -43,6 +43,8 @@ const DetailBiodata = ({ data }: { data: IDataParticipant }) => {
                 <p>Ibu Kandung</p>
                 <p>Pekerjaan</p>
                 <p>Periode Perlindungan</p>
+                <p>No Antrian</p>
+                <p>Waktu</p>
                 <p>Terdaftar Pada</p>
               </span>
               <span className="flex flex-col gap-y-2 truncate">
@@ -53,6 +55,8 @@ const DetailBiodata = ({ data }: { data: IDataParticipant }) => {
                 <p>: {data.biological_mother}</p>
                 <p>: {data.work}</p>
                 <p>: {data.protection_period}</p>
+                <p>: {data.no_antrian}</p>
+                <p>: {data.time}</p>
                 <p>: {data.created_at}</p>
               </span>
             </span>

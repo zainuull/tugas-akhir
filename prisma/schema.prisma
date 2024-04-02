@@ -64,6 +64,8 @@ id  String  @id @default(auto()) @map("_id") @db.ObjectId
   image                   String?
   isPaid                  Boolean?
   created_at              String?
+  no_antrian              String?
+  time                    String?
 }
 
 model VerificationToken {
